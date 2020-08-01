@@ -7,7 +7,7 @@
     "start": "electron .",
     "lint": "eslint . ",
     "lint-fix": "eslint . --fix",
-    "build": "babel .  --ignore node_modules --ignore build && npm run lint-fix"
+    "build": "babel .  --ignore node_modules build && npm run lint-fix"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -31,8 +31,5 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^1.7.0"
-  },
-  "dependencies": {
-    "node-fetch": "^2.6.0"
   }
 }
