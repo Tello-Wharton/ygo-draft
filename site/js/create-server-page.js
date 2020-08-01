@@ -32,5 +32,12 @@ const openServer = async ({ serverURI, serverPort }) => {
 };
 
 const requestNewServer = async ({ serverName, serverPort }) => {
-  await startServer({ serverName, serverPort })
+  try {
+    const { serverDetails } = await startServer({ serverName, serverPort })
+    // TODO: display response to user in ui
+    console.log(serverDetails);
+  } catch (error) {
+    console.error('Caught error in create-server page');
+    alert(error.message);
+  }
 };

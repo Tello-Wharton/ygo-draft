@@ -3,6 +3,10 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { startServer } = require('./server/gameServer');
 
+
+// Global, because I'm tired.
+let mainWindowGlobal;
+
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -17,7 +21,10 @@ function createWindow() {
   mainWindow.loadFile('./site/index.html');
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools();
+
+  // Update the mainWindow global
+  mainWindowGlobal = mainWindow
 }
 
 // This method will be called when Electron has finished
@@ -40,16 +47,25 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
 
-ipcMain.on('serverConfigurationMessage', async (event, messages) => {
+// TODO: Extract the(se) event handlers into their own file
+const SERVER_CONFIGURATION_MESSAGE_CHANNEL = 'serverConfigurationMessage';
+
+ipcMain.on(SERVER_CONFIGURATION_MESSAGE_CHANNEL, async (event, messages) => {
   console.log('Handling serverConfigurationMessages');
 
-  messages.forEach( ({ type, payload }) => {
+  messages.forEach( async ({ type, payload }) => {
     console.log(`handling message type:${type}`);
     console.log(`with payload:${JSON.stringify(payload)}`);
-    serverConfigurationMessageHandlers[type](payload)
+    try {
+      const responsePayload = await serverConfigurationMessageHandlers[type](payload);
+      mainWindowGlobal.webContents.send(SERVER_CONFIGURATION_MESSAGE_CHANNEL,{ type, 'payload': responsePayload});
+
+    } catch (error) {
+      console.error(`Caught error from invoke of ${type} handler in serverConfigurationMessage`);
+      const niceError = { message: error.message, stack: error.stack };
+      mainWindowGlobal.webContents.send(SERVER_CONFIGURATION_MESSAGE_CHANNEL,{ error: niceError });
+    }
   })
 });
 
