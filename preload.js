@@ -12,14 +12,15 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 const ygo = require('./js/ygoprodeck-api-connector');
+const { createServer } = require('./server/gameServer');
 
 ygo.getCardInfo().then((info) => console.log(info));
 ygo.getCardImage('46986414').then((img) => console.log(img));
 
-console.log("cake")
 ygo.getCardSetsInfo().then((sets) => console.log(sets));
 ygo.getCardSetCodes().then((sets) => console.log(sets));
 
 
 window.getTenCards = async () => ygo.getCardInfo().then((response) => response.data.slice(0, 10));
-window.getCardImage = async(id) => ygo.getCardImage(id) 
+window.getCardImage = async(id) => ygo.getCardImage(id);
+window.ipcRenderer = require('electron').ipcRenderer;
