@@ -2,24 +2,20 @@
 // It has the same sandbox as a Chrome extension.
 window.addEventListener('DOMContentLoaded', () => {
   const replaceText = (selector, text) => {
-    const element = document.getElementById(selector)
-    if (element) element.innerText = text
-  }
+    const element = document.getElementById(selector);
+    if (element) element.innerText = text;
+  };
 
   for (const type of ['chrome', 'node', 'electron']) {
-    replaceText(`${type}-version`, process.versions[type])
+    replaceText(`${type}-version`, process.versions[type]);
   }
-})
+});
 
+const ygo = require('./js/ygoprodeck-api-connector');
 
-const ygo = require("./js/ygoprodeck-api-connector")
+ygo.getCardInfo().then((info) => console.log(info));
+const sample_img = ygo.getCardImage('46986414');
 
-ygo.getCardInfo().then(info => console.log(info))
-const sample_img = ygo.getCardImage("46986414")
+console.log(sample_img);
 
-console.log(sample_img)
-
-
-window.getTenCards = async () => {
-	return ygo.getCardInfo().map((response) => response.data.slice(0, 10))
-}
+window.getTenCards = async () => ygo.getCardInfo().map((response) => response.data.slice(0, 10));
