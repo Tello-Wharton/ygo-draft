@@ -100,12 +100,11 @@
     <div id="app">
       <button @click="openPack">Open Pack!</button>
 
-
       <ul class="flashcard-list">
         <li v-on:click="toggleCard(card)" v-for="card in cards">
           <transition name="flip">
             <div v-bind:key="card.flipped" class="card">
-                <img v-bind:src="card.flipped ? card.image : 'https://vignette.wikia.nocookie.net/yugioh/images/9/94/Back-Anime-2.png/revision/latest?cb=20110624090942'"/>
+                <img v-bind:src="card.flipped ? card.image : '../card_imgs/cd_back_clean.png'"/>
             </div>
           </transition>
         </li>
