@@ -1,11 +1,19 @@
+
 const fs = require('fs');
+const util = require('util');
+
+const fsAccess = util.promisify(fs.access)
+
+
 const fetch = require('node-fetch');
+
 
 const pathChar = '\\';
 
 const root = `${process.env.APPDATA + pathChar}ygo-draft${pathChar}`;
 const cache = `${root + pathChar}cache${pathChar}`;
 const cardImages = `${cache + pathChar}card-images${pathChar}`;
+const cardInfo = `${cache + pathChar}cardinfo.json`;
 
 const mkdirIfNotExistsSync = (path) => {
   if (!fs.existsSync(path)) {
@@ -19,9 +27,15 @@ mkdirIfNotExistsSync(cardImages);
 
 const doesFileExist = async ({ path }) => {
   // If file can be accessed it is deemed to exit
-  await fs.access(path, fs.F_OK, (err) => {
-    return !err;
-  })
+
+  try {
+    await fsAccess(path)
+  } catch {
+    return false
+  }
+  
+  return true
+
 };
 
 const getCardFilePath = ({ cardId }) => {
@@ -58,6 +72,28 @@ const getCardImage = async ({ id: cardId , image_url: imageUrl }) => {
   return cachedImagePath;
 };
 
+
+const getCardInfo = async () => {
+  const path = cardInfo
+  const fileExists = await doesFileExist({path})
+
+  console.log(fileExists)
+
+  if (fileExists) {
+    console.log("using cached cardInfo")
+    return await JSON.parse(fs.readFileSync(path))
+  }
+
+  console.log("fetching cardinfo")
+  const json = await fetch('https://db.ygoprodeck.com/api/v7/cardinfo.php').then((res) => res.json())
+
+  fs.writeFileSync(path, JSON.stringify(json));
+
+  return json
+
+}
+
 module.exports = {
-  getCardImage
+  getCardImage,
+  getCardInfo
 };

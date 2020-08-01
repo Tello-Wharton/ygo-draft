@@ -1,6 +1,6 @@
 const fs = require('./filesystem-api');
 
-const cardInfo = fetch('https://db.ygoprodeck.com/api/v7/cardinfo.php').then((response) => response.json());
+const cardInfo = fs.getCardInfo()
 const cardImages = cardInfo.then((response) => {
   const cardImages = {};
 
