@@ -3,7 +3,9 @@ let pack
 let selected_pack_image;
 let t
 let card_count = 10
-function preload(){
+
+
+function preload() {
     selected_pack_image = loadImage("https://i.imgur.com/8bnpR7y.jpeg")
     card_back = loadImage("https://vignette.wikia.nocookie.net/yugioh/images/9/94/Back-Anime-2.png/revision/latest?cb=20110624090942")
 }
