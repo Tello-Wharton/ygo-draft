@@ -23,6 +23,8 @@ const cardImages = cardInfo.then(response => {
 			}
 		}
 
+		delete card.card_images
+		
 		cardImages[id] = image_urls
 
 	})
