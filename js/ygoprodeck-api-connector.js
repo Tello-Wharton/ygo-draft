@@ -33,6 +33,6 @@ module.exports = {
   getCardImage: async (id) => {
     id = String(id);
     const image_url = await cardImages.then((images) => images[id].image_url);
-    return await fs.getCardImage(id, image_url);
+    return await fs.getCardImage({id, image_url});
   },
 };
