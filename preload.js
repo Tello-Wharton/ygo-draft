@@ -14,8 +14,8 @@ window.addEventListener('DOMContentLoaded', () => {
 const ygo = require('./js/ygoprodeck-api-connector');
 
 ygo.getCardInfo().then((info) => console.log(info));
-const sample_img = ygo.getCardImage('46986414');
+ygo.getCardImage('46986414').then((img) => console.log(img));
 
-console.log(sample_img);
 
 window.getTenCards = async () => ygo.getCardInfo().then((response) => response.data.slice(0, 10));
+window.getCardImage = async(id) => ygo.getCardImage(id) 
