@@ -1,6 +1,8 @@
 const fs = require('./filesystem-api');
 
 const cardInfo = fs.getCardInfo()
+const cardSets = fs.getCardSets()
+
 const cardImages = cardInfo.then((response) => {
   const cardImages = {};
 
@@ -30,6 +32,7 @@ const cardImages = cardInfo.then((response) => {
 
 module.exports = {
   getCardInfo: async () => await cardInfo,
+  getCardSets: async () => await cardSets,
   getCardImage: async (id) => {
     id = String(id);
     const image_url = await cardImages.then((images) => images[id].image_url);

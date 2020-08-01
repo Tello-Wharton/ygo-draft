@@ -15,6 +15,7 @@ const root = `${process.env.APPDATA + pathChar}ygo-draft${pathChar}`;
 const cache = `${root + pathChar}cache${pathChar}`;
 const cardImages = `${cache + pathChar}card-images${pathChar}`;
 const cardInfo = `${cache + pathChar}cardinfo.json`;
+const cardSets = `${cache + pathChar}cardsets.json`;
 
 const mkdirIfNotExistsSync = (path) => {
   if (!fs.existsSync(path)) {
@@ -74,25 +75,34 @@ const getCardImage = async ({ id: cardId , image_url: imageUrl }) => {
 };
 
 
-const getCardInfo = async () => {
-  const path = cardInfo
+const getEndpointData = async (path, endpoint) => {
+
   const fileExists = await doesFileExist({path})
 
   if (fileExists) {
-    console.log("using cached cardInfo")
+    console.log("using cached " + path)
     return await JSON.parse(fs.readFileSync(path))
   }
 
-  console.log("fetching cardinfo")
-  const json = await fetch('https://db.ygoprodeck.com/api/v7/cardinfo.php').then((res) => res.json())
+  console.log("fetching cardinfo from " + endpoint)
+  const json = await fetch(endpoint).then((res) => res.json())
 
   await fsWriteFile(path, JSON.stringify(json));
 
   return json
-
 }
+
+const getCardInfo = async () => {
+  return await getEndpointData(cardInfo, "https://db.ygoprodeck.com/api/v7/cardinfo.php")
+}
+
+const getCardSets = async () => {
+  return await getEndpointData(cardSets, "https://db.ygoprodeck.com/api/v7/cardsets.php")
+}
+
 
 module.exports = {
   getCardImage,
-  getCardInfo
+  getCardInfo,
+  getCardSets
 };
