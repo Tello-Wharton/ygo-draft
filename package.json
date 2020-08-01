@@ -7,7 +7,7 @@
     "start": "electron .",
     "lint": "eslint . ",
     "lint-fix": "eslint . --fix",
-    "build": "babel src -d build && npm run lint-fix"
+    "build": "babel .  --ignore node_modules build && npm run lint-fix"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
