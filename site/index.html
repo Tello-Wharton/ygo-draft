@@ -16,6 +16,7 @@
 
     <div id="app">
       {{ message }}
+      <button @click="openPack">Open Pack!</button>
       <li v-for="image in images">
         <img v-bind:src="image"/>
       </li>

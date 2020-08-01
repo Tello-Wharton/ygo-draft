@@ -23,4 +23,5 @@ ygo.openPack("LOB").then((sets) => console.log(sets));
 
 
 window.getTenCards = async () => ygo.getCardInfo().then((response) => response.data.slice(0, 10));
-window.getCardImage = async(id) => ygo.getCardImage(id) 
+window.openPack = async (setCode) => ygo.openPack(setCode)
+window.getCardImage = async(id) => ygo.getCardImage(id)
