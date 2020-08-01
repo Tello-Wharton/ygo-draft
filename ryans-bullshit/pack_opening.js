@@ -13,8 +13,9 @@ function setup() {
     createCanvas(windowWidth,windowHeight);
     pack = new Pack(selected_pack_image)
     t=0
-    for (let i = 0; i < 10; i++){
-
+    for (let i = 0; i < card_count; i++){
+        let card = new Card(card_back)
+        cards.push(card)
     }
     // for (let i = 0; i < 10; i++){
     //     let x = random(width);
@@ -40,8 +41,13 @@ function draw() {
     }else if (fly_in_duration < t <= fly_out_duration){
         pack.fly_out(fly_out_duration)
         pack.shake()
+        for (let i = 0; i < cards.length; i++) {
+            cards[i].fly_out(fly_out_duration);
+            cards[i].show();
+        }
     }
     pack.show();
+
     // for (let i = 0; i < bubbles.length; i++) {
     //     bubbles[i].move();
     //     bubbles[i].show();
@@ -68,7 +74,6 @@ class Pack{
     fly_out(duration){
         let x_dest = (width/2) + this.img_width*2.5
         if (duration/2 < t){
-            console.log("aaa")
             this.x = this.x -10 * (1/(t/duration))
             this.r = this.r -PI * (1/(t/duration)) * 0.1
         }
@@ -85,21 +90,25 @@ class Pack{
 }
 
 class Card{
-    constructor(x,y,r){
-        this.x = x;
-        this.y = y;
-        this.r = r;
-        this.brightness = 0;
+    constructor(card_image){
+        this.card_image = card_image
+        this.x = width/2;
+        this.y = height/2;
+        this.r = 0
+        this.y_change = random(-5, 5);
+        this.delay = random(150,200)
     }
-    move(){
-        this.x = this.x + random(-2, 2);
-        this.y = this.y + random(-2, 2);
+    fly_out(duration){
+        if ((t+this.delay) > duration){
+            this.x = this.x + 10* (1/(t/duration));
+            this.y = this.y + this.y_change;
+            this.r = this.r -PI * (1/(t/duration)) * 0.05
+        }
     }
     show(){
-        image(selected_pack_image, this.x, this.y);
-        // stroke(255);
-        // strokeWeight(4);
-        // fill(this.brightness,125);
-        // ellipse(this.x,this.y,this.r * 2)
+        // translate(this.x,this.y)
+        // rotate(this.r,[1,1,0])
+        // imageMode(CENTER);
+        image(this.card_image, this.x, this.y)
     }
 }
