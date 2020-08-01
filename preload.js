@@ -10,3 +10,8 @@ window.addEventListener('DOMContentLoaded', () => {
     replaceText(`${type}-version`, process.versions[type])
   }
 })
+
+
+const ygo = require("./js/ygoprodeck-api-connector")
+
+ygo.getCardInfo().then(info => console.log(info))
