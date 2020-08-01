@@ -1,63 +1,46 @@
 
 window.addEventListener('DOMContentLoaded', () => {
-	
-	var app = new Vue({
-		el: '#app',
-		data: {
-		  message: "Hello",
-		  cards: [],
-		newFront: '',
-		newBack: '',
-		error: false
-		},
-		methods: {
-			openPack: async function() {
 
-				await	window.openPack("LOB").then(tenCards => this.cards = tenCards)
+  var app = new Vue({
+    el: '#app',
+    data: {
+      message: "Hello",
+      cards: [],
+      newFront: '',
+      newBack: '',
+      error: false
+    },
+    methods: {
+      openPack: async function() {
 
-				const cardIds = this.cards.map(card => card.id)
+        await	window.openPack("LOB").then(tenCards => this.cards = tenCards)
 
-				for ( var i = 0 ; i < cardIds.length ; i++ )
-				{
-					const img = await window.getCardImage(cardIds[i])
-					this.cards[i]["image"] = img
-				}
+        const cardIds = this.cards.map(card => card.id)
 
-				
-			      this.cards.push(null)
-			      this.cards.pop()
+        for ( var i = 0 ; i < cardIds.length ; i++ ){
+          const img = await window.getCardImage(cardIds[i])
+          this.cards[i]["image"] = img
+        }
 
-				restart()
 
-		  },
-		  toggleCard: function(card) {
-		      card.flipped = !card.flipped;
+        this.cards.push(null)
+        this.cards.pop()
 
-		      console.log(card.flipped)
+        restart()
 
-		      this.cards.push(null)
-		      this.cards.pop()
+      },
+      toggleCard: function(card) {
+        card.flipped = true;
 
-		    },
-		    addNew: function() {
-		      if(!this.newFront || !this.newBack) {
-		        this.error = true;
-		      } else {
-		        this.cards.push({
-		          front: this.newFront,
-		          back: this.newBack,
-		          flipped: false
-		        });
-		        // set the field empty
-		        this.newFront = '';
-		        this.newBack = '';
-		        // Make the warning go away
-		        this.error= false;
-		      }
-		    }
-		},
-		created: function() {
-			this.openPack()
-		}
-	})
+        console.log(card.flipped)
+
+        this.cards.push(null)
+        this.cards.pop()
+
+      },
+    },
+    created: function() {
+      this.openPack()
+    }
+  })
 })
