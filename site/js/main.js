@@ -22,7 +22,7 @@ window.addEventListener('DOMContentLoaded', () => {
 					this.images.push(img)
 				}
 
-				restart()
+				restart(this.images[0])
 
 		  }
 		},

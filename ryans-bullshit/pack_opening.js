@@ -33,10 +33,9 @@ function mousePressed(){
 }
 
 
-function restart() {
-
-    t=0
-
+function restart(img) {
+    selected_pack_image = loadImage(img)
+    setup()
 }
 
 
