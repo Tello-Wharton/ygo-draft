@@ -26,6 +26,7 @@
     "eslint-plugin-react-hooks": "^1.7.0"
   },
   "dependencies": {
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "socket.io": "^2.3.0"
   }
 }
