@@ -3,6 +3,7 @@ const fs = require('fs');
 const util = require('util');
 
 const fsAccess = util.promisify(fs.access)
+const fsWriteFile = util.promisify(fs.writeFile)
 
 
 const fetch = require('node-fetch');
@@ -33,7 +34,7 @@ const doesFileExist = async ({ path }) => {
   } catch {
     return false
   }
-  
+
   return true
 
 };
@@ -87,7 +88,7 @@ const getCardInfo = async () => {
   console.log("fetching cardinfo")
   const json = await fetch('https://db.ygoprodeck.com/api/v7/cardinfo.php').then((res) => res.json())
 
-  fs.writeFileSync(path, JSON.stringify(json));
+  await fsWriteFile(path, JSON.stringify(json));
 
   return json
 
