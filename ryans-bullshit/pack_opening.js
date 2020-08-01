@@ -34,7 +34,8 @@ function mousePressed(){
 
 
 function draw() {
-    background(255);
+    clear();
+    
     fly_in_duration = 100;
     fly_out_duration = 300;
 
