@@ -71,7 +71,13 @@ const getCardImage = async (id) => {
 }
 
 const openPack = async (setCode) => {
+  
+  const cards = await cardSets.then(sets => sets[setCode])
 
+  return Array(9).fill()
+    .map(n => Math.random() * cards.length)
+    .map(i => parseInt(i))
+    .map(i => cards[i])
 }
 
 module.exports = {

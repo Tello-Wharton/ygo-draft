@@ -19,6 +19,7 @@ ygo.getCardImage('46986414').then((img) => console.log(img));
 console.log("cake")
 ygo.getCardSetsInfo().then((sets) => console.log(sets));
 ygo.getCardSetCodes().then((sets) => console.log(sets));
+ygo.openPack("LOB").then((sets) => console.log(sets));
 
 
 window.getTenCards = async () => ygo.getCardInfo().then((response) => response.data.slice(0, 10));
