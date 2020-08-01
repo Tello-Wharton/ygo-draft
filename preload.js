@@ -19,8 +19,13 @@ ygo.getCardImage('46986414').then((img) => console.log(img));
 
 ygo.getCardSetsInfo().then((sets) => console.log(sets));
 ygo.getCardSetCodes().then((sets) => console.log(sets));
+ygo.openPack("LOB").then((sets) => console.log(sets));
 
 
 window.getTenCards = async () => ygo.getCardInfo().then((response) => response.data.slice(0, 10));
 window.getCardImage = async(id) => ygo.getCardImage(id);
+window.openPack = async (setCode) => ygo.openPack(setCode);
+window.getCardImage = async(id) => ygo.getCardImage(id);
+
 window.ipcRenderer = require('electron').ipcRenderer;
+

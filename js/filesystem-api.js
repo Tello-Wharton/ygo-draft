@@ -53,8 +53,14 @@ const addImageToLocalCache = async ({ imageUrl, path }) => {
   await fetch(imageUrl).then(res => new Promise((resolve, reject) => {
     const dest = fs.createWriteStream(path);
     res.body.pipe(dest);
-    dest.on('close', () => resolve());
-    dest.on('error', reject);
+    dest.on('close', () => {
+      dest.end()
+      resolve()
+    });
+    dest.on('error', () => {
+      dest.end()
+      reject()
+    });
   }));
 
   return { cachedImagePath : path };
