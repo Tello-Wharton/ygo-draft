@@ -1,6 +1,7 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const { startServer } = require('./server/gameServer');
 
 function createWindow() {
   // Create the browser window.
@@ -16,7 +17,7 @@ function createWindow() {
   mainWindow.loadFile('./site/index.html');
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
@@ -41,3 +42,17 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+ipcMain.on('serverConfigurationMessage', async (event, messages) => {
+  console.log('Handling serverConfigurationMessages');
+
+  messages.forEach( ({ type, payload }) => {
+    console.log(`handling message type:${type}`);
+    console.log(`with payload:${JSON.stringify(payload)}`);
+    serverConfigurationMessageHandlers[type](payload)
+  })
+});
+
+const serverConfigurationMessageHandlers = {
+  'startServer': startServer,
+};
