@@ -17,8 +17,11 @@ mkdirIfNotExistsSync(root);
 mkdirIfNotExistsSync(cache);
 mkdirIfNotExistsSync(cardImages);
 
-const doesFileExist = async () => {
-  return false;
+const doesFileExist = async ({ path }) => {
+  // If file can be accessed it is deemed to exit
+  await fs.access(path, fs.F_OK, (err) => {
+    return !err;
+  })
 };
 
 const getCardFilePath = ({ cardId }) => {
