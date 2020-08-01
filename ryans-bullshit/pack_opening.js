@@ -6,7 +6,7 @@ let card_count = 10
 
 
 function preload() {
-    selected_pack_image = loadImage("https://i.imgur.com/8bnpR7y.jpeg")
+    selected_pack_image = loadImage("../pack_imgs/pk_legend_of_blue_eyes_white_dragon.jpg")
     card_back = loadImage("https://vignette.wikia.nocookie.net/yugioh/images/9/94/Back-Anime-2.png/revision/latest?cb=20110624090942")
 }
 
@@ -34,7 +34,7 @@ function mousePressed(){
 
 
 function restart(img) {
-    selected_pack_image = loadImage(img)
+    selected_pack_image = loadImage("../pack_imgs/pk_legend_of_blue_eyes_white_dragon.jpg")
     setup()
 }
 
