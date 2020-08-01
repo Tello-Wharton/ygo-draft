@@ -1,7 +1,7 @@
 const fs = require('./filesystem-api');
 
 const cardInfo = fs.getCardInfo()
-const cardSets = fs.getCardSets()
+const cardSetsInfo = fs.getCardSets()
 
 const cardImages = cardInfo.then((response) => {
   const cardImages = {};
@@ -25,17 +25,57 @@ const cardImages = cardInfo.then((response) => {
     cardImages[id] = image_urls;
   });
 
-  console.log(cardImages);
-
   return cardImages;
 });
 
+const cardSets = cardInfo.then((response) => {
+
+  const cardSets = {};
+
+  response.data.forEach((card) => {
+    
+    const id = `${card.id}`;
+
+    if (card.card_sets) {
+
+      card.card_sets.forEach((cardset) => {
+
+        const setcode = cardset.set_code
+
+        if (!cardSets[setcode]) {
+          cardSets[setcode] = []
+        }
+
+        cardSets[setcode].push({"id" : id}) 
+
+      })
+    }
+
+  });
+
+  console.log(cardSets)
+
+  return cardSets
+
+});
+
+
+const getCardInfo = async () => await cardInfo
+const getCardSetsInfo = async () => await cardSetsInfo
+
+const getCardImage = async (id) => {
+  id = String(id);
+  const image_url = await cardImages.then((images) => images[id].image_url);
+  return await fs.getCardImage({id, image_url});
+}
+
+const openPack = async (setCode) => {
+
+}
+
 module.exports = {
-  getCardInfo: async () => await cardInfo,
-  getCardSets: async () => await cardSets,
-  getCardImage: async (id) => {
-    id = String(id);
-    const image_url = await cardImages.then((images) => images[id].image_url);
-    return await fs.getCardImage({id, image_url});
-  },
+  getCardInfo,
+  getCardSetsInfo,
+  getCardImage,
+  openPack,
 };
