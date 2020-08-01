@@ -40,7 +40,7 @@ const cardSets = cardInfo.then((response) => {
 
       card.card_sets.forEach((cardset) => {
 
-        const setcode = cardset.set_code
+        const setcode = cardset.set_code.split("-")[0]
 
         if (!cardSets[setcode]) {
           cardSets[setcode] = []
@@ -62,6 +62,7 @@ const cardSets = cardInfo.then((response) => {
 
 const getCardInfo = async () => await cardInfo
 const getCardSetsInfo = async () => await cardSetsInfo
+const getCardSetCodes = async () => await cardSets.then(a => Object.keys(a))
 
 const getCardImage = async (id) => {
   id = String(id);
@@ -76,6 +77,7 @@ const openPack = async (setCode) => {
 module.exports = {
   getCardInfo,
   getCardSetsInfo,
+  getCardSetCodes,
   getCardImage,
   openPack,
 };
