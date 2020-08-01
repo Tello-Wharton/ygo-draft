@@ -22,6 +22,8 @@ window.addEventListener('DOMContentLoaded', () => {
 					this.images.push(img)
 				}
 
+				restart()
+
 		  }
 		},
 		created: function() {

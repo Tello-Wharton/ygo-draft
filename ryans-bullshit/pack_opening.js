@@ -33,9 +33,16 @@ function mousePressed(){
 }
 
 
+function restart() {
+
+    t=0
+
+}
+
+
 function draw() {
     clear();
-    
+
     fly_in_duration = 100;
     fly_out_duration = 300;
 
