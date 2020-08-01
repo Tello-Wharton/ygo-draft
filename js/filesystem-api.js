@@ -25,14 +25,14 @@ const doesFileExist = async ({ path }) => {
 };
 
 const getCardFilePath = ({ cardId }) => {
-  console.log(`getCardFilePath called with ${cardId}`);
+  // console.log(`getCardFilePath called with ${cardId}`);
   const fileName = `${cardId}.jpg`;
   return cardImages + pathChar + fileName;
 };
 
 
 const addImageToLocalCache = async ({ imageUrl, path }) => {
-  console.log(`addImageToLocalCache called with imageUrl:${imageUrl} and path:${path}`);
+  // console.log(`addImageToLocalCache called with imageUrl:${imageUrl} and path:${path}`);
 
   await fetch(imageUrl).then(res => new Promise((resolve, reject) => {
     const dest = fs.createWriteStream(path);
@@ -44,21 +44,20 @@ const addImageToLocalCache = async ({ imageUrl, path }) => {
   return { cachedImagePath : path };
 };
 
+const getCardImage = async ({ id: cardId , image_url: imageUrl }) => {
+  // console.log('getCardImage called');
+
+  const path = getCardFilePath({cardId});
+  const cardImageIsInLocalCache = await doesFileExist({path});
+
+  if (cardImageIsInLocalCache) {
+    return path;
+  }
+
+  const {cachedImagePath} = await addImageToLocalCache({imageUrl, path});
+  return cachedImagePath;
+};
+
 module.exports = {
-  getCardImage: async ({ id: cardId , image_url: imageUrl }) => {
-    console.log('getCardImage called');
-
-    const path = getCardFilePath({ cardId });
-
-    // Does this image exist in our cache
-    const cardImageIsInLocalCache = await doesFileExist({ path });
-
-    if (cardImageIsInLocalCache) {
-      return path;
-    }
-
-    const { cachedImagePath } = await addImageToLocalCache({ imageUrl, path });
-
-    return cachedImagePath;
-  },
+  getCardImage
 };
