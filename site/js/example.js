@@ -26,21 +26,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		  	}
 		  },
 			created: function() {
-
-					const init = async () => {
-						await	window.getTenCards().then(tenCards => this.cards = tenCards)
-
-						const cardIds = this.cards.map(card => card.id)
-
-						for ( var i = 0 ; i < cardIds.length ; i++ )
-						{
-							const img = await window.getCardImage(cardIds[i])
-							this.images.push(img)
-						}
-
-					 }
-
-					 init();
+				this.openPack()
 			}
 		})
 })
