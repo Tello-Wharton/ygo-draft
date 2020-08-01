@@ -1,7 +1,7 @@
 {
-  "name": "electron-quick-start",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "name": "ygo-draft",
+  "version": "0.1.0",
+  "description": "Faclilitates an online YGO draft",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -9,16 +9,9 @@
     "lint-fix": "eslint . --fix",
     "build": "babel .  --ignore node_modules build && npm run lint-fix"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "repository": "https://github.com/Tello-Wharton/ygo-draft",
+  "author": "Aaron Tello-Wharton et al",
+  "license": "GPL V3",
   "devDependencies": {
     "electron": "^9.1.2",
     "@babel/cli": "^7.6.2",
