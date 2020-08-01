@@ -1,11 +1,4 @@
 
-const exampleFunction = async() => {
-	const tenCards = await window.getTenCards()
-	console.log(tenCards)
-	return tenCards;
-}
-
-
 window.addEventListener('DOMContentLoaded', () => {
 	
 	var app = new Vue(
@@ -33,8 +26,6 @@ window.addEventListener('DOMContentLoaded', () => {
 		  	}
 		  },
 			created: function() {
-				 // exampleFunction().then(tenCards => this.cards = tenCards)
-
 
 					const init = async () => {
 						await	window.getTenCards().then(tenCards => this.cards = tenCards)
