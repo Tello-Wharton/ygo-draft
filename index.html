@@ -7,8 +7,6 @@
     <script src="./site/js/vue/vue.js"></script>
     <script src="./site/js/example.js"></script>
 
-
-
   </head>
   <body>
     <h1>Hello World!</h1>
@@ -17,8 +15,13 @@
     and Electron <span id="electron-version"></span>.
 
     <div id="app">
-  {{ message }}
-</div>
+      {{ message }}
+      <li v-for="image in images">
+      <img v-bind:src="image"/>
+      </li>
+    </div>
+
+
 
 
 
