@@ -6,7 +6,6 @@ window.addEventListener('DOMContentLoaded', () => {
 		data: {
 		  message: "Hello",
 		  cards: [],
-		  images: [],
 		newFront: '',
 		newBack: '',
 		error: false
@@ -18,21 +17,24 @@ window.addEventListener('DOMContentLoaded', () => {
 
 				const cardIds = this.cards.map(card => card.id)
 
-				this.images = []
 				for ( var i = 0 ; i < cardIds.length ; i++ )
 				{
 					const img = await window.getCardImage(cardIds[i])
-					this.images.push(img)
+					this.cards[i]["image"] = img
 				}
 
-				restart(this.images[0])
+				
+			      this.cards.push(null)
+			      this.cards.pop()
+
+				restart()
 
 		  },
 		  toggleCard: function(card) {
 		      card.flipped = !card.flipped;
 
 		      console.log(card.flipped)
-		      
+
 		      this.cards.push(null)
 		      this.cards.pop()
 

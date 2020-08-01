@@ -54,23 +54,7 @@
       }
       
       .card {
-        display: block;
-        width: 150px;
-        height: 175px;
-        padding: 80px 50px;
-        background-color: #51aae5;
-        border-radius: 7px;
-        margin: 5px;
-        text-align: center;
-        line-height: 27px;
         cursor: pointer;
-        position: relative;
-        color: #fff;
-        font-weight: 600;
-        font-size: 20px;
-        -webkit-box-shadow: 9px 10px 22px -8px rgba(209,193,209,.5);
-        -moz-box-shadow: 9px 10px 22px -8px rgba(209,193,209,.5);
-        box-shadow: 9px 10px 22px -8px rgba(209,193,209,.5);
         will-change: transform;
       }
       
@@ -126,6 +110,7 @@
       
       .flip-enter, .flip-leave {
         transform: rotateY(180deg);
+        transform-origin: center center;
         opacity: 0;
       
       }
@@ -133,44 +118,6 @@
       /* Form */
       .flashcard-form{
         position: relative;
-      }
-      
-      
-      label{
-        font-weight: 400;
-        color: #333;
-        margin-right: 10px;
-      }
-      
-      input{
-        border-radius: 5px;
-        border: 2px solid #eaeaea;
-        padding: 10px;
-        outline: none;
-      }
-      
-      button{
-        border-radius: 5px;
-        border: 1px solid #87cb84;
-        background-color: #87cb84;
-        padding: 8px 15px;
-        outline: none;
-        font-size: 14px;
-        font-weight: 700;
-        color: #fff;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-      
-      button:hover{
-        background-color: #70a66f;
-      }
-      
-      .error{
-        margin-top: 10px;
-        display: block;
-        color: #e44e42;
-        font-weight: 600;
       }
 
     </style>
@@ -187,25 +134,14 @@
 
 
       <ul class="flashcard-list">
-        <li v-on:click="toggleCard(card)" v-for="(card, index) in cards">
+        <li v-on:click="toggleCard(card)" v-for="card in cards">
           <transition name="flip">
-            <p v-bind:key="card.flipped" class="card">
-                {{ card.flipped ? "cake" : "cake2" }}
-                <span v-on:click="cards.splice(index, 1)" class="delete-card">X</span>
-            </p>
+            <div v-bind:key="card.flipped" class="card">
+                <img v-bind:src="card.flipped ? card.image : 'https://vignette.wikia.nocookie.net/yugioh/images/9/94/Back-Anime-2.png/revision/latest?cb=20110624090942'"/>
+            </div>
           </transition>
         </li>
       </ul>
-
-      <div class="cards">
-        <div class="card" v-for="image in images">
-          <img v-bind:src="image"/>
-        </div>
-      </div>
-
-
-
-
     </div>
 
     <script src="js/networking/libs/socket.io.js"></script>
