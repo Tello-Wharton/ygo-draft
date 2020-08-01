@@ -18,3 +18,8 @@ ygo.getCardInfo().then(info => console.log(info))
 const sample_img = ygo.getCardImage("46986414")
 
 console.log(sample_img)
+
+
+window.getTenCards = async () => {
+	return ygo.getCardInfo().map((response) => response.data.slice(0, 10))
+}
