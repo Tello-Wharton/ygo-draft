@@ -6,7 +6,10 @@ window.addEventListener('DOMContentLoaded', () => {
 		data: {
 		  message: "Hello",
 		  cards: [],
-		  images: []
+		  images: [],
+		newFront: '',
+		newBack: '',
+		error: false
 		},
 		methods: {
 			openPack: async function() {
@@ -24,7 +27,32 @@ window.addEventListener('DOMContentLoaded', () => {
 
 				restart(this.images[0])
 
-		  }
+		  },
+		  toggleCard: function(card) {
+		      card.flipped = !card.flipped;
+
+		      console.log(card.flipped)
+		      
+		      this.cards.push(null)
+		      this.cards.pop()
+
+		    },
+		    addNew: function() {
+		      if(!this.newFront || !this.newBack) {
+		        this.error = true;
+		      } else {
+		        this.cards.push({
+		          front: this.newFront,
+		          back: this.newBack,
+		          flipped: false
+		        });
+		        // set the field empty
+		        this.newFront = '';
+		        this.newBack = '';
+		        // Make the warning go away
+		        this.error= false;
+		      }
+		    }
 		},
 		created: function() {
 			this.openPack()
