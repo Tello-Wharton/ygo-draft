@@ -78,8 +78,6 @@ const getCardInfo = async () => {
   const path = cardInfo
   const fileExists = await doesFileExist({path})
 
-  console.log(fileExists)
-
   if (fileExists) {
     console.log("using cached cardInfo")
     return await JSON.parse(fs.readFileSync(path))
