@@ -24,7 +24,7 @@ const cardImages = cardInfo.then(response => {
 		}
 
 		delete card.card_images
-		
+
 		cardImages[id] = image_urls
 
 	})
@@ -36,5 +36,10 @@ const cardImages = cardInfo.then(response => {
 
 
 module.exports = {
-	getCardInfo: async () => await cardInfo
+	getCardInfo: async () => await cardInfo,
+	getCardImage: async(id) => {
+		id = String(id)
+		const image_url = await cardImages.then(images => images[id].image_url)
+		return await fs.getCardImage(id, image_url)
+	}
 }
