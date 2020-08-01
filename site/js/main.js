@@ -36,7 +36,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
         this.cards.push(null)
         this.cards.pop()
-
       },
     },
     created: function() {
