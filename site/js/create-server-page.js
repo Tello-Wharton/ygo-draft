@@ -1,4 +1,5 @@
 import { startServer, getConnectedClients } from '../js/networking/server-service.js';
+import { connectToServer } from '../js/connect-to-server-page.js';
 
 
 Vue.component("create-server", {
@@ -24,9 +25,8 @@ Vue.component("create-server", {
       this.url = serverDetails.serverUri
 
 
-      this.serverCreated = true
-
-      this.createGame()
+      connectToServer().then(() => this.createGame())
+      
 
       console.log(serverDetails);
     } catch (error) {
@@ -44,7 +44,7 @@ Vue.component("create-server", {
       game_id: t
     }
 
-    eventBus.$emit("to-server", { message })
+    eventBus.$emit("to-server", message )
 
   },
   createServer: function (event) {

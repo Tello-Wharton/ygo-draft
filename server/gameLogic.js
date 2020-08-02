@@ -3,10 +3,11 @@
 const games = {}
 
 
-const error = (err) => {
+const error = (err, message) => {
 	return {
 		responseType: "error",
-		errorMessage: err
+		errorMessage: err,
+		message
 	}
 }
 
@@ -23,13 +24,13 @@ const response = (actionCompleted, actionNext, data, message) => {
 const newGame = (message) => {
 
 	if (!message.game_id) {
-		return error("No game ID provided!")
+		return error("No game ID provided!", message)
 	}
 
 	const id = String(message.game_id)
 
 	if (games[id]) {
-		return error("Game already created!")
+		return error("Game already created!", message)
 	}
 
 	games[id] = {}
@@ -42,11 +43,11 @@ const process = (message) => {
 	const command = message["command"]
 
 	if (!command)
-		return error("No command was set!")
+		return error("No command was set!", message)
 	else if (command === "new-game")
 		return newGame(message)
 
-	return error("No command was executed")
+	return error("No command was executed", message)
 }
 
 module.exports = {
