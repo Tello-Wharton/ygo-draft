@@ -5,30 +5,29 @@ import { openConnectionToServer } from '../js/networking/networking-client.js';
 let globalSocket;
 let globalServerDetails;
 
-window.addEventListener('DOMContentLoaded', async () => {
-  const app = new Vue(
-      {
-        el: '#app',
-        data:
-            {
-              serverUri: 'http://localhost:56351',
-              connectedToServer: false,
-              serverName: '',
-            },
-        created: () => {
-          const init = async () => {
 
-          };
-          init();
-        },
-        methods: {
-          connectToServer: async function (event) {
-            event.preventDefault();
-            await openServer({serverURI: this.serverUri})
-          }
-        }
-      })
-});
+Vue.component("join-server", {
+  template: '#join-server',
+  data() {
+    return {
+        serverUri: 'http://localhost:56351',
+        connectedToServer: false,
+        serverName: '',
+      }
+  },
+  created: () => {
+    const init = async () => {
+
+    };
+    init();
+  },
+  methods: {
+    connectToServer: async function (event) {
+      event.preventDefault();
+      await openServer({serverURI: this.serverUri})
+    }
+  }
+})
 
 const openServer = async ({ serverURI }) => {
   if (globalSocket) {

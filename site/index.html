@@ -14,6 +14,7 @@
   <script src="./js/vue-page-main.js"></script>
   <script src="./js/pack-opener.js"></script>
   <script src="js/create-server-page.js" type="module"></script>
+  <script src="js/connect-to-server-page.js" type="module"></script>
 
   <link rel="stylesheet" type="text/css" href="./css/pack-opener.css">
 </head>
@@ -35,6 +36,7 @@
 
     <pack-opener v-if="page === 'pack-opener'"></pack-opener>
     <create-server v-else-if="page === 'create-server'"></create-server>
+    <join-server v-else-if="page === 'join-server'"></join-server>
 
   </div>
 </main>
@@ -88,6 +90,30 @@
   </div>
 
 </script>
+
+<script type="text/x-template" id="join-server">
+  <div>
+    <h1>Connect to a Server</h1>
+
+
+    <div>
+        Enter the server connection details that you wish to connect to below:
+        <form>
+            <div>
+                <label for="serverUri">server address:</label>
+                <input id="serverUri" v-model="serverUri" type="text">
+            </div>
+
+            <div>
+                <button v-on:click="connectToServer($event)">Connect To Server</button>
+            </div>
+        </form>
+    </div>
+
+  </div>
+
+</script>
+
 
 </body>
 </html>
