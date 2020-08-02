@@ -115,23 +115,30 @@
 
 <script type="text/x-template" id="join-server">
   <div>
-    <h1>Connect to a Server</h1>
 
+    <div v-if="connectedToServer">
+      <h1>Connected!</h1>
+    </div>
+    <div v-else>
 
-    <div>
-        Enter the server connection details that you wish to connect to below:
-        <form>
-            <div>
-                <label for="serverUri">server address:</label>
-                <input id="serverUri" v-model="serverUri" type="text">
-            </div>
+      <h1>Connect to a Server</h1>
 
-            <div>
-                <button v-on:click="connectToServer($event)">Connect To Server</button>
-                <button v-on:click="sendBroadcastMessage($event)">Send message</button>
-                {{message}}
-            </div>
-        </form>
+      <div>
+          Enter the server connection details that you wish to connect to below:
+          <form>
+              <div>
+                  <label for="serverUri">server address:</label>
+                  <input id="serverUri" v-model="serverUri" type="text">
+              </div>
+
+              <div>
+                  <button v-on:click="connectToServer($event)">Connect To Server</button>
+                  <button v-on:click="sendBroadcastMessage($event)">Send message</button>
+                  {{message}}
+              </div>
+          </form>
+      </div>
+
     </div>
 
   </div>

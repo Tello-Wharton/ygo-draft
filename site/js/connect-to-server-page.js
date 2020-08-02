@@ -17,7 +17,9 @@ Vue.component("join-server", {
         event.preventDefault();
       }
 
-      connectToServer(this.serverUri)
+      this.connectedToServer = connectToServer(this.serverUri)
+
+
     },
     sendBroadcastMessage: async function (event) {
       event.preventDefault();
@@ -26,17 +28,25 @@ Vue.component("join-server", {
   }
 });
 
+var connectionCI;
+
 const connectToServer = async function (serverUri) {
 
+  if (connectionCI) {
+    return true
+  }
+
   const { connectionClientInstance } = await openServer({serverUri: serverUri || "http://localhost:56351", messageHandler: eventBus});
+  connectionCI = connectionClientInstance
+
       // Just mount the connectionClientInstance onto teh event bus global
   eventBus.$on("to-server", (message) => connectionClientInstance.broadcastMessage({ message }))
+
+  return true
 }
 
 const openServer = async ({ serverUri, messageHandler }) => {
-  if (eventBus.connectionClientInstance) {
-   throw new Error('Already connected to a server')
-  }
+
   const connectionClientInstance = await createConnectionClientInstance({ serverUri, messageHandler });
   return { connectionClientInstance };
 };

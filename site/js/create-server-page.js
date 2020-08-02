@@ -27,6 +27,7 @@ Vue.component("create-server", {
 
       connectToServer().then(() => this.createGame())
       
+      this.serverCreated = true
 
       console.log(serverDetails);
     } catch (error) {
