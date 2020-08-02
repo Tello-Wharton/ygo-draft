@@ -53,8 +53,6 @@ const cardSets = cardInfo.then((response) => {
 
   });
 
-  console.log(cardSets)
-
   return cardSets
 
 });
