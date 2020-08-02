@@ -55,7 +55,7 @@ function draw() {
     if (t <= fly_in_duration){
         pack.fly_in(fly_in_duration)
     } else if (fly_in_duration < t && t <= fly_out_duration){
-        console.log("YEadawdd")
+        
         pack.fly_out(fly_out_duration)
         pack.shake()
         for (let i = 0; i < cards.length; i++) {
