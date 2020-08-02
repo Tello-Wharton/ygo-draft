@@ -1,36 +1,35 @@
 import { startServer, getConnectedClients } from '../js/networking/server-service.js';
 
-window.addEventListener('DOMContentLoaded', async () => {
-  const app = new Vue(
-      {
-        el: '#app',
-        data:
-            {
-              message: "Hello",
-              serverPort: '56351',
-              serverName: 'TestServer🍰',
-              connectedClients: [],
-              cards: [],
-              images: []
-            },
-        created: () => {
-          const init = async () => {
 
-          };
-          init();
-        },
-        methods: {
-          createServer: function (event) {
-            event.preventDefault();
-            requestNewServer({serverPort: this.serverPort, serverName: this.serverName })
-          },
-          getCurrentlyConnectedClients: async function (event) {
-            event.preventDefault();
-            this.connectedClients = await requestCurrentlyConnectedClients();
-          }
-        }
-      })
-});
+Vue.component("create-server", {
+  template: '#create-server',
+  data() {
+    return {
+        message: "Hello",
+        serverPort: '56351',
+        serverName: 'TestServer🍰',
+        connectedClients: [],
+        cards: [],
+        images: []
+      }
+  },
+  created: () => {
+    const init = async () => {
+
+    };
+    init();
+  },
+  methods: {
+    createServer: function (event) {
+      event.preventDefault();
+      requestNewServer({serverPort: this.serverPort, serverName: this.serverName })
+    },
+    getCurrentlyConnectedClients: async function (event) {
+      event.preventDefault();
+      this.connectedClients = await requestCurrentlyConnectedClients();
+    }
+  }
+})
 
 const requestNewServer = async ({ serverName, serverPort }) => {
   try {
