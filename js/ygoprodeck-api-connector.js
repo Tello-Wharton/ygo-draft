@@ -1,4 +1,6 @@
-const fs = require('./filesystem-api');
+
+
+const fs = require('./ygo-files');
 
 const cardInfo = fs.getCardInfo()
 const cardSetsInfo = fs.getCardSets()
