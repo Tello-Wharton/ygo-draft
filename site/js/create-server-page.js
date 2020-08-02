@@ -13,12 +13,6 @@ Vue.component("create-server", {
         images: []
       }
   },
-  created: () => {
-    const init = async () => {
-
-    };
-    init();
-  },
   methods: {
     createServer: function (event) {
       event.preventDefault();
