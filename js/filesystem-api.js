@@ -11,15 +11,15 @@ const fetch = require('node-fetch');
 
 const pathChar = '\\';
 
-const root = `${process.env.APPDATA + pathChar}ygo-draft${pathChar}`;
-const cache = `${root + pathChar}cache${pathChar}`;
-const cardImages = `${cache + pathChar}card-images${pathChar}`;
-const cardInfo = `${cache + pathChar}cardinfo.json`;
-const cardSets = `${cache + pathChar}cardsets.json`;
+const root = process.env.APPDATA +  pathChar + "ygo-draft" + pathChar;
+const cache = root + pathChar + "cache" + pathChar;
+const cardImages = cache + pathChar + "card-images" + pathChar;
+const cardInfo = cache + pathChar + "cardinfo.json";
+const cardSets = cache + pathChar + "cardsets.json";
 
 const mkdirIfNotExistsSync = (path) => {
   if (!fs.existsSync(path)) {
-    	fs.mkdirSync(path);
+    fs.mkdirSync(path);
   }
 };
 
@@ -42,7 +42,7 @@ const doesFileExist = async ({ path }) => {
 
 const getCardFilePath = ({ cardId }) => {
   // console.log(`getCardFilePath called with ${cardId}`);
-  const fileName = `${cardId}.jpg`;
+  const fileName = cardId + ".jpg";
   return cardImages + pathChar + fileName;
 };
 
@@ -51,19 +51,21 @@ const addImageToLocalCache = async ({ imageUrl, path }) => {
   // console.log(`addImageToLocalCache called with imageUrl:${imageUrl} and path:${path}`);
 
   await fetch(imageUrl).then(res => new Promise((resolve, reject) => {
+    
     const dest = fs.createWriteStream(path);
     res.body.pipe(dest);
+
     dest.on('close', () => {
       dest.end()
       resolve()
     });
+    
     dest.on('error', () => {
       dest.end()
       reject()
     });
-  }));
 
-  return { cachedImagePath : path };
+  }));
 };
 
 const getCardImage = async ({ id: cardId , image_url: imageUrl }) => {
@@ -72,12 +74,12 @@ const getCardImage = async ({ id: cardId , image_url: imageUrl }) => {
   const path = getCardFilePath({cardId});
   const cardImageIsInLocalCache = await doesFileExist({path});
 
-  if (cardImageIsInLocalCache) {
-    return path;
+  if (!cardImageIsInLocalCache) {
+    await addImageToLocalCache({imageUrl, path});
   }
 
-  const {cachedImagePath} = await addImageToLocalCache({imageUrl, path});
-  return cachedImagePath;
+  return path;
+
 };
 
 
