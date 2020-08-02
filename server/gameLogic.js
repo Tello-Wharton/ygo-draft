@@ -33,10 +33,30 @@ const newGame = (message) => {
 		return error("Game already created!", message)
 	}
 
-	games[id] = {}
+	games[id] = {
+		users: []
+	}
 
 	return response("new-game", null, {gameId: id}, "A game has been created")
 }
+
+const joinGame = (message) => {
+
+	const id = String(message.game_id)
+
+	games[id].users.push(message.username)
+
+	return response("join-game", null, games[id], "A user joined the game")
+}
+
+const getGame = (message) => {
+
+	const id = String(message.game_id)
+
+	return response("get-game", null, games[id], "Game object requested")
+
+}
+
 
 const process = (message) => {
 
@@ -46,6 +66,10 @@ const process = (message) => {
 		return error("No command was set!", message)
 	else if (command === "new-game")
 		return newGame(message)
+	else if (command === "join-game")
+		return joinGame(message)
+	else if (command === "get-game")
+		return getGame(message)
 
 	return error("No command was executed", message)
 }

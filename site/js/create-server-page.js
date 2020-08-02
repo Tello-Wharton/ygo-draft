@@ -1,5 +1,5 @@
 import { startServer, getConnectedClients } from '../js/networking/server-service.js';
-import { connectToServer } from '../js/connect-to-server-page.js';
+import { connectToServer, joinGame } from '../js/connect-to-server-page.js';
 
 
 Vue.component("create-server", {
@@ -11,6 +11,7 @@ Vue.component("create-server", {
         serverName: 'TestServer🍰',
         serverCreated: false,
         gameId: null,
+        username: "host",
         url: null,
         connectedClients: [],
         cards: [],
@@ -25,7 +26,7 @@ Vue.component("create-server", {
       this.url = serverDetails.serverUri
 
 
-      connectToServer().then(() => this.createGame())
+      connectToServer().then(() => this.createGame()).then(id => joinGame(id, this.username))
       
       this.serverCreated = true
 
@@ -46,6 +47,8 @@ Vue.component("create-server", {
     }
 
     eventBus.$emit("to-server", message )
+
+    return t
 
   },
   createServer: function (event) {

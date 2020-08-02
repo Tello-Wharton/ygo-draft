@@ -118,6 +118,18 @@
 
     <div v-if="connectedToServer">
       <h1>Connected!</h1>
+
+      <div v-if="game">
+        <p>Players:</p>
+
+        <ul>
+          <li v-for="user in game.users">
+            {{user}}
+          </li>
+        </ul>
+
+      </div>
+
     </div>
     <div v-else>
 

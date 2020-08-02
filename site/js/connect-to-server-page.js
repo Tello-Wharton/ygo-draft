@@ -1,10 +1,30 @@
 import { createConnectionClientInstance } from '../js/networking/networking-client.js';
 
+
+var gameId
+
+const joinGame = (gameid, username) => {
+
+  gameId = gameid
+
+  const message = {
+    command : "join-game",
+    game_id: gameId,
+    username: username
+  }
+
+  eventBus.$emit("to-server", message)
+}
+
+
 Vue.component("join-server", {
   template: '#join-server',
   data() {
     return {
         serverUri: 'http://localhost:56351',
+        game: null,
+        gameId: "",
+        username: "",
         connectedToServer: false,
         serverName: '',
         message: 'robertSaysHi',
@@ -18,6 +38,7 @@ Vue.component("join-server", {
       }
 
       this.connectedToServer = connectToServer(this.serverUri)
+      joinGame(this.gameId, this.username)
 
 
     },
@@ -27,8 +48,26 @@ Vue.component("join-server", {
     }
   },
   created: function() {
+
+    eventBus.$on("from-server", (payload) => {
+      const { message } = payload;
+
+      if (message.actionCompleted === "get-game" || message.actionCompleted === "join-game") {
+        this.game = message.data
+      }
+
+    })
+
     if (connectionCI) {
       this.connectedToServer = true
+
+      const message = {
+        command : "get-game",
+        game_id: gameId
+      }
+
+      eventBus.$emit("to-server", message)
+
     }
   }
 });
@@ -50,6 +89,7 @@ const connectToServer = async function (serverUri) {
   return true
 }
 
+
 const openServer = async ({ serverUri, messageHandler }) => {
 
   const connectionClientInstance = await createConnectionClientInstance({ serverUri, messageHandler });
@@ -67,4 +107,4 @@ const broadcastMessage = async ({ message }) => {
   }
 };
 
-export { connectToServer }
+export { connectToServer, joinGame }
