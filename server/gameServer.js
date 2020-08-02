@@ -24,10 +24,19 @@ const startServer = async ({ serverPort, serverName }) => {
 
       socket.emit('serverDetails', {serverName, serverUri });
 
+      socket.on('broadcast', (payload, callBack) => {
+        const { message } = payload;
+        console.log(`Broadcasting message:${message}`);
+        socket.broadcast.emit('broadcastMessage', { message });
+        callBack({message});
+      });
+
       socket.on('disconnect', () => {
         console.log('user disconnected');
       });
     });
+
+
 
 
   } catch (error) {
@@ -64,7 +73,7 @@ const getConnectedClients = async () => {
   })
 };
 
-  // getConnectedClients,
+
 module.exports = {
   startServer,
   broadcast,

@@ -1,4 +1,4 @@
-import { startServer, getConnectedClients } from '../js/networking/networking-client.js';
+import { startServer, getConnectedClients } from '../js/networking/server-service.js';
 
 
 Vue.component("create-server", {
@@ -33,7 +33,7 @@ Vue.component("create-server", {
 
 const requestNewServer = async ({ serverName, serverPort }) => {
   try {
-    const { serverDetails } = await startServer({ serverName, serverPort })
+    const { serverDetails } = await startServer({ serverName, serverPort });
     // TODO: display response to user in ui
     console.log(serverDetails);
   } catch (error) {
