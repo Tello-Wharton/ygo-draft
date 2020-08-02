@@ -25,6 +25,11 @@ Vue.component("join-server", {
       event.preventDefault();
       await broadcastMessage({message: this.message})
     }
+  },
+  created: function() {
+    if (connectionCI) {
+      this.connectedToServer = true
+    }
   }
 });
 
