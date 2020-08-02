@@ -20,26 +20,34 @@
   <script src="./js/connect-to-server-page.js" type="module"></script>
 
   <link rel="stylesheet" type="text/css" href="./css/pack-opener.css">
+
+  <style>
+  @import "./css/index.css";
+  </style>
+
 </head>
 <body>
 
 <main>
   <div id="ygo-draft">
 
+    <div class="sidenav">
     <h1>YGO Draft</h1>
 
 
-    <button @click="goToHome">Home</button>
-    <button @click="goToCreateServer">Create Server</button>
-    <button @click="goToJoinServer">Connect to Server</button>
-    <button @click="goToPackOpener">Pack Opener</button>
+    <a @click="goToHome">Home</a>
+    <a @click="goToCreateServer">Create Server</a>
+    <a @click="goToJoinServer">Connect to Server</a>
+    <a @click="goToPackOpener">Pack Opener</a>
+    </div>
 
-
+    <div class="content">
     <p>{{page}}</p>
 
     <pack-opener v-if="page === 'pack-opener'"></pack-opener>
     <create-server v-else-if="page === 'create-server'"></create-server>
     <join-server v-else-if="page === 'join-server'"></join-server>
+  </div>
 
   </div>
 </main>
