@@ -43,18 +43,20 @@
 
 
 <script type="text/x-template" id="pack-opener">
-    <div>
+    <div class="pack-opener">
       <button @click="openPack">Open Pack!</button>
 
       <ul class="flashcard-list">
         <li v-on:click="toggleCard(card)" v-for="card in cards">
-          <transition name="flip">
-            <div v-bind:key="card.flipped" class="card">
-              <div style="width: 250px;">
-                <img style="width: 100%;" v-bind:src="card.flipped ? card.image : '../card_imgs/cd_back_clean.png'"/>
+          <div class="card-container">
+            <transition name="flip">
+              <div v-bind:key="card.flipped" class="card">
+                <div style="width: 250px;">
+                  <img style="width: 100%;" v-bind:src="card.flipped ? card.image : '../card_imgs/cd_back_clean.png'"/>
+                </div>
               </div>
-            </div>
-          </transition>
+            </transition>
+          </div>
         </li>
       </ul>
     </div>
