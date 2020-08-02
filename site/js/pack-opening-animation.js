@@ -14,10 +14,10 @@ function preload() {
 function setup() {
     cards = []
     createCanvas(windowWidth,windowHeight);
-    pack = new Pack(selected_pack_image)
+    pack = new Pack(selected_pack_image,1.4)
     t=0
     for (let i = 0; i < card_count; i++){
-        let card = new Card(card_back)
+        let card = new Card(card_back,0.9)
         cards.push(card)
     }
     // for (let i = 0; i < 10; i++){
@@ -76,23 +76,23 @@ function draw() {
 }
 
 class Pack{
-    constructor(pack_image){
-        this.img_width = pack_image.width //fix later
-        this.img_height = pack_image.height // fix later
+    constructor(pack_image, scale_factor){
+        this.pack_image = pack_image
+        this.img_width = pack_image.width * scale_factor
+        this.img_height = pack_image.height * scale_factor
         this.fly_in_t = 0
         this.fly_out_t = 0
-        this.pack_image = pack_image
         this.x = -width
         this.y = (height/2) 
         this.r = 0
     }
     fly_in(duration){
-        let x_dest = (width/2) + this.img_width*2.5
+        let x_dest = (width/2) + this.img_width*2
         this.x = (t/duration) * (x_dest - this.x) - this.img_width
         this.r = (t/duration) * 2*PI
     }
     fly_out(duration){
-        let x_dest = (width/2) + this.img_width*2.5
+        let x_dest = (width/2) + this.img_width*2
         if (duration/2 < t){
             this.x = this.x -10 * (1/(t/duration))
             this.r = this.r -PI * (1/(t/duration)) * 0.1
@@ -105,14 +105,16 @@ class Pack{
         translate(this.x,this.y)
         rotate(this.r,[1,1,0])
         imageMode(CENTER);
-        image(this.pack_image, 0, 0)
+        image(this.pack_image, 0, 0, this.img_width, this.img_height)
     }
 }
 
 class Card{
-    constructor(card_image){
+    constructor(card_image, scale_factor){
         this.card_image = card_image
-        this.x = width/2;
+        this.img_width = card_image.width * scale_factor
+        this.img_height = card_image.height * scale_factor
+        this.x = width/2 - this.img_width/2;
         this.y = height/2;
         this.r = 0
         this.y_change = random(-5, 5);
@@ -128,7 +130,7 @@ class Card{
     show(){
         // translate(this.x,this.y)
         // rotate(this.r,[1,1,0])
-        // imageMode(CENTER);
-        image(this.card_image, this.x, this.y)
+        imageMode(CENTER);
+        image(this.card_image, this.x, this.y, this.img_width, this.img_height)
     }
 }
