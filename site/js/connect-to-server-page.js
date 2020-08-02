@@ -10,8 +10,6 @@ Vue.component("join-server", {
         message: 'robertSaysHi',
       }
   },
-  created: function() {
-  },
   methods: {
     connectToServer: async function (event) {
       event.preventDefault();
