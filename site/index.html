@@ -50,7 +50,9 @@
         <li v-on:click="toggleCard(card)" v-for="card in cards">
           <transition name="flip">
             <div v-bind:key="card.flipped" class="card">
-                <img style="width: 250px;" v-bind:src="card.flipped ? card.image : '../card_imgs/cd_back_clean.png'"/>
+              <div style="width: 250px;">
+                <img style="width: 100%;" v-bind:src="card.flipped ? card.image : '../card_imgs/cd_back_clean.png'"/>
+              </div>
             </div>
           </transition>
         </li>
