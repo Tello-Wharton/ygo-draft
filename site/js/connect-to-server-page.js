@@ -22,15 +22,16 @@ Vue.component("join-server", {
   },
   created: function() {
 
-    this.$on("robert-message", (msg) => console.log(msg))
-    
-    this.$emit("robert-message", "cake")
-
+    this.$on("broadcast-message", (payload) => {
+      const { message } = payload;
+      console.log(`Vue handling broadcast-message with message:${message}`);
+      this.message = message;
+    });
   },
   methods: {
     connectToServer: async function (event) {
       event.preventDefault();
-      await openServer({serverURI: this.serverUri, messageHandler: this.broadcastMessageHandler})
+      await openServer({serverUri: this.serverUri, messageHandler: this})
     },
     sendBroadcastMessage: async function (event) {
       event.preventDefault();
