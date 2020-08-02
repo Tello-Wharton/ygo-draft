@@ -37,7 +37,7 @@ export const createConnectionClientInstance = async ({ serverUri, messageHandler
   socket.on('broadcastMessage', (payload) => {
     console.log('Received broadcast message');
     console.log(`message payload:${JSON.stringify(payload)}`);
-    messageHandler.$emit('broadcast-message', payload);
+    messageHandler.$emit('from-server', payload);
   });
 
   return {

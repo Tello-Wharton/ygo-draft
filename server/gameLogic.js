@@ -10,26 +10,31 @@ const error = (err) => {
 	}
 }
 
-const response = (actionCompleted, actionNext, message) => {
+const response = (actionCompleted, actionNext, data, message) => {
 	return {
 		responseType: "message",
 		actionCompleted: actionCompleted,
 		actionNext: actionNext,
+		data: data,
 		message: message
 	}
 }
 
 const newGame = (message) => {
 
-	if (!games[id]) {
-		return error("No id was defined")
+	if (!message.game_id) {
+		return error("No game ID provided!")
 	}
 
 	const id = String(message.game_id)
 
+	if (games[id]) {
+		return error("Game already created!")
+	}
+
 	games[id] = {}
 
-	return response("new-game", null, "A game has been created")
+	return response("new-game", null, {gameId: id}, "A game has been created")
 }
 
 const process = (message) => {

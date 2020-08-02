@@ -26,11 +26,26 @@ Vue.component("create-server", {
 
       this.serverCreated = true
 
+      this.createGame()
+
       console.log(serverDetails);
     } catch (error) {
       console.error('Caught error in create-server page');
       alert(error.message);
     }
+  },
+  createGame: function() {
+    
+    let d = new Date();
+    let t = d.getTime();
+
+    const message = {
+      command : "new-game",
+      game_id: t
+    }
+
+    eventBus.$emit("to-server", { message })
+
   },
   createServer: function (event) {
       event.preventDefault();
@@ -40,6 +55,16 @@ Vue.component("create-server", {
       event.preventDefault();
       this.connectedClients = await requestCurrentlyConnectedClients();
     }
+  },
+  created: function() {
+    eventBus.$on("from-server", (payload) => {
+      const { message } = payload;
+
+      if (message.actionCompleted === "new-game") {
+        this.gameId = message.data.gameId
+      }
+
+    })
   }
 })
 
