@@ -3,13 +3,22 @@
 <head>
   <meta charset="utf-8">
   <title>YGO Draft</title>
+  <script src="./js/vue/vue.js"></script>
+  <script src="./js/vue-page-main.js"></script>
 </head>
 <body>
 
 <main>
-  <a href="./create-server.html">Create Server</a>
-  <a href="./connect-to-server.html">Connect to Server</a>
-  <a href="./pack-opening.html">Pack Opener</a>
+  <div id="ygo-draft">
+
+    <button @click="goToCreateServer">Create Server</button>
+    <button @click="goToJoinServer">Connect to Server</button>
+    <button @click="goToPackOpener">Pack Opener</button>
+    <button @click="goToHome">Home</button>
+
+    <p>{{page}}</p>
+
+  </div>
 </main>
 
 </body>
