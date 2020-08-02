@@ -63,14 +63,16 @@ const cardSets = cardInfo.then((response) => {
 const clone = (json) => JSON.parse(JSON.stringify(json))
 
 
-const getCardInfo = async () => await cardInfo.then(json => clone(json))
-const getCardSetsInfo = async () => await cardSetsInfo.then(json => clone(json))
-const getCardSetCodes = async () => await cardSets.then(a => Object.keys(a)).then(json => clone(json))
+const getCardInfo = async () => cardInfo.then(json => clone(json))
+const getCardSetsInfo = async () => cardSetsInfo.then(json => clone(json))
+const getCardSetCodes = async () => cardSets.then(a => Object.keys(a)).then(json => clone(json))
 
 const getCardImage = async (id) => {
   id = String(id);
+  
   const image_url = await cardImages.then((images) => images[id].image_url);
-  return await fs.getCardImage({id, image_url}).then(json => clone(json));
+  
+  return fs.getCardImage({id, image_url}).then(json => clone(json));
 }
 
 const openPack = async (setCode) => {
