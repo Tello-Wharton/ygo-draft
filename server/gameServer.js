@@ -33,7 +33,7 @@ const startServer = async ({ serverPort, serverName }) => {
       socket.on('broadcast', (payload, callBack) => {
 
         const response = gameLogic.process(payload)
-        socket.broadcast.emit('broadcastMessage', { message : response });
+        socket.emit('broadcastMessage', { message : response });
         callBack({ message : response });
 
       });
