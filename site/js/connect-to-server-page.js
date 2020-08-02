@@ -1,8 +1,4 @@
 import { createConnectionClientInstance } from '../js/networking/networking-client.js';
-// import * as rxjs from 'rxjs';
-
-// Global, cause its late
-let connectionClientInstance;
 
 Vue.component("join-server", {
   template: '#join-server',
@@ -12,26 +8,16 @@ Vue.component("join-server", {
         connectedToServer: false,
         serverName: '',
         message: 'robertSaysHi',
-        broadcastMessageHandler: async function (payload) {
-          console.log('called into broadcastMessageHandler Test');
-          const { message } = payload;
-          // this will be undefined as this is not "legal" vue?
-          this.message = message;
-        }
       }
   },
   created: function() {
-
-    // this.$on("broadcast-message", (payload) => {
-    //   const { message } = payload;
-    //   console.log(`Vue handling broadcast-message with message:${message}`);
-    //   this.message = message;
-    // });
   },
   methods: {
     connectToServer: async function (event) {
       event.preventDefault();
-      await openServer({serverUri: this.serverUri, messageHandler: eventBus})
+      const { connectionClientInstance } = await openServer({serverUri: this.serverUri, messageHandler: eventBus});
+      // Just mount the connectionClientInstance onto teh event bus global
+      eventBus.connectionClientInstance = connectionClientInstance;
     },
     sendBroadcastMessage: async function (event) {
       event.preventDefault();
@@ -40,18 +26,18 @@ Vue.component("join-server", {
   }
 });
 
-
 const openServer = async ({ serverUri, messageHandler }) => {
-  if (connectionClientInstance) {
+  if (eventBus.connectionClientInstance) {
    throw new Error('Already connected to a server')
   }
-  connectionClientInstance = await createConnectionClientInstance({ serverUri, messageHandler });
+  const connectionClientInstance = await createConnectionClientInstance({ serverUri, messageHandler });
+  return { connectionClientInstance };
 };
 
 const broadcastMessage = async ({ message }) => {
   try {
     console.log('Requesting broadcast message transmission');
-    await connectionClientInstance.broadcastMessage({ message });
+    await eventBus.connectionClientInstance.broadcastMessage({ message });
   } catch (error) {
     console.error('caught error when attempting to broadcast a message');
     console.error(error.message);
