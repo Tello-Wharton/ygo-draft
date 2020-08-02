@@ -53,10 +53,6 @@ const startServer = async ({ serverPort, serverName }) => {
   }
 };
 
-const broadcast = () => {
-
-};
-
 const getConnectedClients = async () => {
   return new Promise((resolve, reject) => {
     console.log('gameServer Getting connectedClients');
