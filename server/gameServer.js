@@ -1,6 +1,8 @@
 const Server = require('socket.io');
 const ngrok = require('ngrok');
 
+const gameLogic = require("./gameLogic")
+
 class InvalidOperationError extends Error {}
 
 let serverRunning = false;
@@ -29,10 +31,11 @@ const startServer = async ({ serverPort, serverName }) => {
       socket.emit('serverDetails', {serverName, serverUri: tunnelUri });
 
       socket.on('broadcast', (payload, callBack) => {
-        const { message } = payload;
-        console.log(`Broadcasting message:${message}`);
-        socket.broadcast.emit('broadcastMessage', { message });
-        callBack({message});
+
+        const response = gameLogic.process(payload)
+        socket.broadcast.emit('broadcastMessage', { message : response });
+        callBack({ message : response });
+
       });
 
       socket.on('disconnect', () => {
