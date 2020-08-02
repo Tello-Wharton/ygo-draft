@@ -29,7 +29,7 @@ Vue.component("join-server", {
   methods: {
     connectToServer: async function (event) {
       event.preventDefault();
-      await openServer({serverURI: this.serverUri})
+      await openServer({serverURI: this.serverUri, messageHandler: this.broadcastMessageHandler})
     },
     sendBroadcastMessage: async function (event) {
       event.preventDefault();
