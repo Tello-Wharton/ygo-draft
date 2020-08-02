@@ -85,6 +85,13 @@
         </div>
     </form>
 
+    <div v-if="serverCreated">
+      <h2>Server Created!</h2>
+      <p>Url to connect with: <code>{{url}}</code></p>
+      <p>Game ID: <code>{{gameId}}</code></p>
+    </div>
+
+
     <h3>Currently connected clients:</h3>
     <button v-on:click="getCurrentlyConnectedClients($event)">Refresh Currently Connected Clients</button>
 
