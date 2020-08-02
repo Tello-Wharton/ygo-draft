@@ -3,6 +3,7 @@ const fs = require('fs');
 const util = require('util');
 
 const fsAccess = util.promisify(fs.access)
+const fsReadFile = util.promisify(fs.readFile)
 const fsWriteFile = util.promisify(fs.writeFile)
 
 
@@ -89,7 +90,7 @@ const getEndpointData = async (path, endpoint) => {
 
   if (fileExists) {
     console.log("using cached " + path)
-    return await JSON.parse(fs.readFileSync(path))
+    return await fsReadFile(path).then(json => JSON.parse(json))
   }
 
   console.log("fetching cardinfo from " + endpoint)
