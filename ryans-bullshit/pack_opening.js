@@ -33,28 +33,38 @@ function mousePressed(){
 }
 
 
-function restart(img) {
-    selected_pack_image = loadImage("../pack_imgs/pk_legend_of_blue_eyes_white_dragon.jpg")
+var startAnimation = false;
+
+function restart() {
+    startAnimation = true
     setup()
 }
 
-
 function draw() {
+
     clear();
+
+    if (!startAnimation) {
+        return
+    }
 
     fly_in_duration = 100;
     fly_out_duration = 300;
 
     if (t <= fly_in_duration){
         pack.fly_in(fly_in_duration)
-    }else if (fly_in_duration < t <= fly_out_duration){
+    } else if (fly_in_duration < t && t <= fly_out_duration){
+        console.log("YEadawdd")
         pack.fly_out(fly_out_duration)
         pack.shake()
         for (let i = 0; i < cards.length; i++) {
             cards[i].fly_out(fly_out_duration);
             cards[i].show();
         }
+    } else {
+        startAnimation = false;
     }
+
     pack.show();
 
     // for (let i = 0; i < bubbles.length; i++) {

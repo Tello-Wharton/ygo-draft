@@ -22,7 +22,6 @@ window.addEventListener('DOMContentLoaded', () => {
           this.cards[i]["image"] = img
         }
 
-
         this.cards.push(null)
         this.cards.pop()
 
@@ -30,16 +29,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
       },
       toggleCard: function(card) {
+        
         card.flipped = true;
-
-        console.log(card.flipped)
 
         this.cards.push(null)
         this.cards.pop()
       },
     },
     created: function() {
-      this.openPack()
+      
     }
+
   })
 })
