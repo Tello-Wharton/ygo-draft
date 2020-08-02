@@ -3,13 +3,20 @@
 <head>
   <meta charset="utf-8">
   <title>YGO Draft</title>
+  
   <script src="./js/vue/vue.js"></script>
+
   <script src="./js/vue-page-main.js"></script>
+  <script src="./js/pack-opener.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="./css/pack-opener.css">
 </head>
 <body>
 
 <main>
   <div id="ygo-draft">
+
+    <h1>YGO Draft</h1>
 
     <button @click="goToCreateServer">Create Server</button>
     <button @click="goToJoinServer">Connect to Server</button>
@@ -18,8 +25,32 @@
 
     <p>{{page}}</p>
 
+    <pack-opener></pack-opener>
+
   </div>
 </main>
+
+
+<script type="text/x-template" id="pack-opener">
+    <div>
+      <button @click="openPack">Open Pack!</button>
+
+      <ul class="flashcard-list">
+        <li v-on:click="toggleCard(card)" v-for="card in cards">
+          <transition name="flip">
+            <div v-bind:key="card.flipped" class="card">
+                <img style="width: 250px;" v-bind:src="card.flipped ? card.image : '../card_imgs/cd_back_clean.png'"/>
+            </div>
+          </transition>
+        </li>
+      </ul>
+    </div>
+</script>
+
+<script type="text/javascript">
+  
+
+</script>
 
 </body>
 </html>

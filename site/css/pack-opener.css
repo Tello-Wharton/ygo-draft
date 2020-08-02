@@ -1,0 +1,57 @@
+.p5Canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  
+  pointer-events: none;
+}
+
+ul {
+  padding-left: 0;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+li {
+  list-style-type: none;
+  padding: 10px 10px;
+  transition: all 0.3s ease;
+}
+
+.card {
+  cursor: pointer;
+  will-change: transform;
+  background-color: transparent;
+}
+
+li:hover{
+  transform: scale(1.1);
+}
+
+.delete-card {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 10px 15px;
+  opacity: .4;
+  transition: all 0.5s ease;
+}
+
+.delete-card:hover, .error {
+  opacity: 1;
+  transform: rotate(360deg);
+}
+
+.flip-enter-active {
+  transition: all 0.4s ease;
+}
+
+.flip-leave-active {
+  display: none;
+}
+
+.flip-enter, .flip-leave {
+  transform: rotateY(180deg);
+  transform-origin: center center;
+  opacity: 0;
+}
