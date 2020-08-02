@@ -1,21 +1,12 @@
-const SERVER_CONFIGURATION_MESSAGE = 'serverConfigurationMessage';
 
-//Generic Message Handling function
-const createMessageResponseHandler = function  ({ responseHandler, errorHandler }) {
-  return async (event, { error , type, payload }) => {
-    console.log('Called into a messageResponseHandler');
-    if (error) {
-      console.error('Error reported from node process');
-      errorHandler(error);
-    }
-    await responseHandler({ type , payload })
-  };
-};
+function curry(f) { // curry(f) does the currying transform
+  return (a) => (b) => f(a, b);
+}
 
-export const openConnectionToServer = async ({ serverURI }) => {
+const openConnectionToServer = async ({ serverUri }) => {
   try {
-    console.log(`Opening server connection to ${serverURI}`);
-    const socket = io(serverURI);
+    console.log(`Opening server connection to ${serverUri}`);
+    const socket = io(serverUri);
     console.log('Opened the socket to server');
     return { socket }
   } catch (error) {
@@ -25,60 +16,31 @@ export const openConnectionToServer = async ({ serverURI }) => {
   }
 };
 
-export const startServer = async ({ serverPort, serverName }) => {
-  console.log(`Requesting start of server on serverPort:${serverPort} and serverName${serverName}`);
-
-  const targetMessageType = 'startServer';
-  window.ipcRenderer.send(SERVER_CONFIGURATION_MESSAGE, [{ type: targetMessageType, payload: { serverName, serverPort }}]);
-
-  const { serverDetails } = await new Promise(async (resolve, reject) => {
-    const returnResponse = ({ type, payload }) => {
-      if (type === targetMessageType) {
-        window.ipcRenderer.removeAllListeners(SERVER_CONFIGURATION_MESSAGE);
-        resolve(payload);
-      }
-      // Else continue to wait
-    };
-
-    const errorHandler = (error) => {
-      window.ipcRenderer.removeAllListeners(SERVER_CONFIGURATION_MESSAGE);
-      console.error(error.message);
-      console.error(error.stack);
-      reject(error);
-    };
-
-    const messageResponseHandler = await createMessageResponseHandler({ responseHandler: returnResponse, errorHandler });
-    window.ipcRenderer.on(SERVER_CONFIGURATION_MESSAGE, messageResponseHandler);
-  });
-
-  return {serverDetails};
+const broadcastMessage = async ( { openSocket },{ message }) => {
+  return new Promise((resolve, reject) => {
+    openSocket.emit('broadcast', { message }, (responsePayload) => {
+      console.log('broadcast response payload:');
+      console.log(JSON.stringify(responsePayload));
+      resolve(responsePayload);
+    });
+  })
 };
 
-export const getConnectedClients = async () => {
-  console.log(`Requesting getConnectedClients`);
+export const createConnectionClientInstance = async ({ serverUri, messageHandler }) => {
+  const { socket }  = await openConnectionToServer({ serverUri });
 
-  const targetMessageType = 'getConnectedClients';
-  window.ipcRenderer.send(SERVER_CONFIGURATION_MESSAGE, [{ type: targetMessageType, payload: {}}]);
-
-  const { clients } = await new Promise(async (resolve, reject) => {
-    const returnResponse = ({ type, payload }) => {
-      if (type === targetMessageType) {
-        window.ipcRenderer.removeAllListeners(SERVER_CONFIGURATION_MESSAGE);
-        resolve(payload);
-      }
-      // Else continue to wait
-    };
-
-    const errorHandler = (error) => {
-      window.ipcRenderer.removeAllListeners(SERVER_CONFIGURATION_MESSAGE);
-      console.error(error.message);
-      console.error(error.stack);
-      reject(error);
-    };
-
-    const messageResponseHandler = await createMessageResponseHandler({ responseHandler: returnResponse, errorHandler });
-    window.ipcRenderer.on(SERVER_CONFIGURATION_MESSAGE, messageResponseHandler);
+  socket.on('serverDetails', (serverDetails) => {
+    console.log('Handling serverDetails');
+    console.log(serverDetails);
   });
 
-  return {clients};
+  socket.on('broadcastMessage', (payload) => {
+    console.log('Received broadcast message');
+    console.log(`message payload:${JSON.stringify(payload)}`);
+    messageHandler(payload);
+  });
+
+  return {
+    'broadcastMessage': curry(broadcastMessage)({ openSocket: socket }),
+  }
 };

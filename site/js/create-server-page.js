@@ -1,4 +1,4 @@
-import { startServer, getConnectedClients } from '../js/networking/networking-client.js';
+import { startServer, getConnectedClients } from '../js/networking/server-service.js';
 
 window.addEventListener('DOMContentLoaded', async () => {
   const app = new Vue(
@@ -34,7 +34,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 const requestNewServer = async ({ serverName, serverPort }) => {
   try {
-    const { serverDetails } = await startServer({ serverName, serverPort })
+    const { serverDetails } = await startServer({ serverName, serverPort });
     // TODO: display response to user in ui
     console.log(serverDetails);
   } catch (error) {

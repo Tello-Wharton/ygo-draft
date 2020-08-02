@@ -22,6 +22,8 @@
 
         <div>
             <button v-on:click="connectToServer($event)">Connect To Server</button>
+            <button v-on:click="sendBroadcastMessage($event)">Send message</button>
+            {{message}}
         </div>
     </form>
 
