@@ -85,7 +85,20 @@ const openPack = async (setCode) => {
   return clone(result)
 }
 
+const getCards = async (ids) => {
+  const cards = await cardInfo.then(cards => 
+    cards.data.reduce(function(map, obj) {
+      const id = "" + obj.id
+      map[id] = obj;
+      return map;
+    }, {})
+  )
+
+  return ids.map(id => String(id)).map(id => cards[id])
+}
+
 module.exports = {
+  getCards,
   getCardInfo,
   getCardSetsInfo,
   getCardSetCodes,
