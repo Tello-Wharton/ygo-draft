@@ -5,12 +5,15 @@
   <title>YGO Draft</title>
   
   <script src="./js/vue/vue.js"></script>
+  <script src="js/networking/libs/socket.io.js"></script>
+
 
   <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
   <script src="../ryans-bullshit/pack_opening.js"></script>
 
   <script src="./js/vue-page-main.js"></script>
   <script src="./js/pack-opener.js"></script>
+  <script src="js/create-server-page.js" type="module"></script>
 
   <link rel="stylesheet" type="text/css" href="./css/pack-opener.css">
 </head>
@@ -31,6 +34,7 @@
     <p>{{page}}</p>
 
     <pack-opener v-if="page === 'pack-opener'"></pack-opener>
+    <create-server v-else-if="page === 'create-server'"></create-server>
 
   </div>
 </main>
@@ -50,6 +54,39 @@
         </li>
       </ul>
     </div>
+</script>
+
+<script type="text/x-template" id="create-server">
+  <div>
+    
+    Select the local port that you wish to start a game server along with the name that you wish to assign this server.
+    <form>
+        <div>
+            <label for="serverPort">Port:</label>
+            <input id="serverPort" v-model="serverPort" type="text">
+        </div>
+
+        <div>
+            <label for="serverName">Server Name</label>
+            <input id="serverName" v-model="serverName" type="text">
+        </div>
+
+        <div>
+            <button v-on:click="createServer($event)">Create Server</button>
+        </div>
+    </form>
+
+    <h3>Currently connected clients:</h3>
+    <button v-on:click="getCurrentlyConnectedClients($event)">Refresh Currently Connected Clients</button>
+
+    <li v-for="client in connectedClients">
+        <div class="">
+            {{client}}
+        </div>
+
+    </li>
+  </div>
+
 </script>
 
 </body>
