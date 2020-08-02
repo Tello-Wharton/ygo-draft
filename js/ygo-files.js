@@ -16,9 +16,13 @@ const doesFileExist = async ({ path }) => {
   // If file can be accessed it is deemed to exit
 
   try {
+
     await fsAccess(path)
+
   } catch {
+
     return false
+
   }
 
   return true
@@ -26,14 +30,15 @@ const doesFileExist = async ({ path }) => {
 };
 
 const getCardFilePath = ({ cardId }) => {
-  // console.log(`getCardFilePath called with ${cardId}`);
+  
   const fileName = cardId + ".jpg";
+
   return paths.cardImages + pathChar + fileName;
+
 };
 
 
 const addImageToLocalCache = async ({ imageUrl, path }) => {
-  // console.log(`addImageToLocalCache called with imageUrl:${imageUrl} and path:${path}`);
 
   await fetch(imageUrl).then(res => new Promise((resolve, reject) => {
     
@@ -86,11 +91,11 @@ const getEndpointData = async (path, endpoint) => {
 }
 
 const getCardInfo = async () => {
-  return await getEndpointData(paths.cardInfo, "https://db.ygoprodeck.com/api/v7/cardinfo.php")
+  return getEndpointData(paths.cardInfo, "https://db.ygoprodeck.com/api/v7/cardinfo.php")
 }
 
 const getCardSets = async () => {
-  return await getEndpointData(paths.cardSets, "https://db.ygoprodeck.com/api/v7/cardsets.php")
+  return getEndpointData(paths.cardSets, "https://db.ygoprodeck.com/api/v7/cardsets.php")
 }
 
 
