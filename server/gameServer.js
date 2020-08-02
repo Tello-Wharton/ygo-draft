@@ -71,6 +71,5 @@ const getConnectedClients = async () => {
 
 module.exports = {
   startServer,
-  broadcast,
   getConnectedClients,
 };

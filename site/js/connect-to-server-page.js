@@ -17,7 +17,7 @@ Vue.component("join-server", {
       event.preventDefault();
       const { connectionClientInstance } = await openServer({serverUri: this.serverUri, messageHandler: eventBus});
       // Just mount the connectionClientInstance onto teh event bus global
-      eventBus.connectionClientInstance = connectionClientInstance;
+      eventBus.$on("to-server", (message) => connectionClientInstance.broadcastMessage({ message }))
     },
     sendBroadcastMessage: async function (event) {
       event.preventDefault();
@@ -37,7 +37,7 @@ const openServer = async ({ serverUri, messageHandler }) => {
 const broadcastMessage = async ({ message }) => {
   try {
     console.log('Requesting broadcast message transmission');
-    await eventBus.connectionClientInstance.broadcastMessage({ message });
+    await eventBus.$emit("to-server", { message });
   } catch (error) {
     console.error('caught error when attempting to broadcast a message');
     console.error(error.message);
