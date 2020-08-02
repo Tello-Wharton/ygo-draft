@@ -13,7 +13,14 @@ window.addEventListener('DOMContentLoaded', () => {
     methods: {
       openPack: async function() {
 
+        this.cards = []
+        this.cards.push(null)
+        this.cards.pop()
+
         await	window.openPack("LOB").then(tenCards => this.cards = tenCards)
+
+        this.cards.push(null)
+        this.cards.pop()
 
         const cardIds = this.cards.map(card => card.id)
 
