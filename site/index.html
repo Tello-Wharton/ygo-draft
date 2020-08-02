@@ -141,10 +141,12 @@
               <div>
                   <label for="serverUri">server address:</label>
                   <input id="serverUri" v-model="serverUri" type="text">
-              </div>
-              <div>
-                  <label for="serverUri">game id:</label>
-                  <input id="serverUri" v-model="gameId" type="text">
+                  <br>
+                  <label for="gameId">game id:</label>
+                  <input id="gameId" v-model="gameId" type="text" required>
+                  <br>
+                  <label for="username">username: </label>
+                  <input id="username" v-model="username" type="text" required>
               </div>
 
               <div>
