@@ -1,4 +1,4 @@
-import { openClientConnection, startServer } from '../js/networking/networking-client.js';
+import { startServer, getConnectedClients } from '../js/networking/networking-client.js';
 
 window.addEventListener('DOMContentLoaded', async () => {
   const app = new Vue(
@@ -9,6 +9,7 @@ window.addEventListener('DOMContentLoaded', async () => {
               message: "Hello",
               serverPort: '56351',
               serverName: 'TestServer🍰',
+              connectedClients: [],
               cards: [],
               images: []
             },
@@ -22,14 +23,14 @@ window.addEventListener('DOMContentLoaded', async () => {
           createServer: function (event) {
             event.preventDefault();
             requestNewServer({serverPort: this.serverPort, serverName: this.serverName })
+          },
+          getCurrentlyConnectedClients: async function (event) {
+            event.preventDefault();
+            this.connectedClients = await requestCurrentlyConnectedClients();
           }
         }
       })
 });
-
-const openServer = async ({ serverURI, serverPort }) => {
-  await openClientConnection({ serverPort, serverURI });
-};
 
 const requestNewServer = async ({ serverName, serverPort }) => {
   try {
@@ -40,4 +41,11 @@ const requestNewServer = async ({ serverName, serverPort }) => {
     console.error('Caught error in create-server page');
     alert(error.message);
   }
+};
+
+const requestCurrentlyConnectedClients = async () => {
+  const { clients } = await getConnectedClients();
+  console.log('GOT CLIENTS');
+  console.log(clients);
+  return clients;
 };

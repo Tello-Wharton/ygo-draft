@@ -28,6 +28,17 @@
             <button v-on:click="createServer($event)">Create Server</button>
         </div>
     </form>
+
+    <h3>Currently connected clients:</h3>
+    <button v-on:click="getCurrentlyConnectedClients($event)">Refresh Currently Connected Clients</button>
+
+    <li v-for="client in connectedClients">
+        <div class="">
+            {{client}}
+        </div>
+
+    </li>
+
 </div>
 
 <script src="js/networking/libs/socket.io.js"></script>

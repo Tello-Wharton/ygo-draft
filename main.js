@@ -1,7 +1,7 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const { startServer } = require('./server/gameServer');
+const { startServer, broadcast, getConnectedClients } = require('./server/gameServer');
 
 
 // Global, because I'm tired.
@@ -70,5 +70,7 @@ ipcMain.on(SERVER_CONFIGURATION_MESSAGE_CHANNEL, async (event, messages) => {
 });
 
 const serverConfigurationMessageHandlers = {
-  'startServer': startServer,
+  startServer,
+  broadcast,
+  getConnectedClients,
 };

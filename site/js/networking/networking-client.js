@@ -12,10 +12,17 @@ const createMessageResponseHandler = function  ({ responseHandler, errorHandler 
   };
 };
 
-export const openClientConnection = async ({ serverURI, serverPort }) => {
-  console.log(`Opening server connection to ${serverURI}:${serverPort}`);
-  const socket = io(`${serverURI}:${serverPort}`);
-  console.log('Finished the creation of the socket');
+export const openConnectionToServer = async ({ serverURI }) => {
+  try {
+    console.log(`Opening server connection to ${serverURI}`);
+    const socket = io(serverURI);
+    console.log('Opened the socket to server');
+    return { socket }
+  } catch (error) {
+    console.error(error.message);
+    console.error(error.stack);
+    throw new Error('Failed to open client connection to server');
+  }
 };
 
 export const startServer = async ({ serverPort, serverName }) => {
@@ -47,4 +54,31 @@ export const startServer = async ({ serverPort, serverName }) => {
   return {serverDetails};
 };
 
+export const getConnectedClients = async () => {
+  console.log(`Requesting getConnectedClients`);
 
+  const targetMessageType = 'getConnectedClients';
+  window.ipcRenderer.send(SERVER_CONFIGURATION_MESSAGE, [{ type: targetMessageType, payload: {}}]);
+
+  const { clients } = await new Promise(async (resolve, reject) => {
+    const returnResponse = ({ type, payload }) => {
+      if (type === targetMessageType) {
+        window.ipcRenderer.removeAllListeners(SERVER_CONFIGURATION_MESSAGE);
+        resolve(payload);
+      }
+      // Else continue to wait
+    };
+
+    const errorHandler = (error) => {
+      window.ipcRenderer.removeAllListeners(SERVER_CONFIGURATION_MESSAGE);
+      console.error(error.message);
+      console.error(error.stack);
+      reject(error);
+    };
+
+    const messageResponseHandler = await createMessageResponseHandler({ responseHandler: returnResponse, errorHandler });
+    window.ipcRenderer.on(SERVER_CONFIGURATION_MESSAGE, messageResponseHandler);
+  });
+
+  return {clients};
+};
