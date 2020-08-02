@@ -1,4 +1,5 @@
 const Server = require('socket.io');
+const ngrok = require('ngrok');
 
 class InvalidOperationError extends Error {}
 
@@ -16,13 +17,16 @@ const startServer = async ({ serverPort, serverName }) => {
     const io = new Server(serverPort);
     serverRunning = true;
     currentServer = io;
-
     console.log(`Created server`);
+
+    console.log('Starting Tunnel');
+    const tunnelUri = await ngrok.connect(9090);
+    console.log(`Created tunnel at:${tunnelUri}`);
 
     io.on('connection', (socket) => {
       console.log('a user connected');
 
-      socket.emit('serverDetails', {serverName, serverUri });
+      socket.emit('serverDetails', {serverName, serverUri: tunnelUri });
 
       socket.on('broadcast', (payload, callBack) => {
         const { message } = payload;
@@ -36,22 +40,17 @@ const startServer = async ({ serverPort, serverName }) => {
       });
     });
 
-
-
+    console.log('Returning new details');
+    return { serverDetails: {serverName, serverUri: tunnelUri }};
 
   } catch (error) {
     if (error instanceof InvalidOperationError) {
       throw error;
     }
-    console.error('Caught error when attempting to startServer in gameServer.js in the node process');
     console.error(error.message);
     console.error(error.stack);
+    throw error('Caught error when attempting to startServer in gameServer.js in the node process');
   }
-
-  const serverUri = `YOUR_PUBLIC_IP:${serverPort}`;
-  console.log('Returning new details');
-
-  return { serverDetails: {serverName, serverUri }};
 };
 
 const broadcast = () => {
