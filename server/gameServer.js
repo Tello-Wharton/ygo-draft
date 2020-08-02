@@ -20,7 +20,7 @@ const startServer = async ({ serverPort, serverName }) => {
     console.log(`Created server`);
 
     console.log('Starting Tunnel');
-    const tunnelUri = await ngrok.connect(9090);
+    const tunnelUri = await ngrok.connect(serverPort);
     console.log(`Created tunnel at:${tunnelUri}`);
 
     io.on('connection', (socket) => {
