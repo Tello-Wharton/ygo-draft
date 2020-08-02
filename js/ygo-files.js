@@ -1,6 +1,8 @@
 
 const fs = require('fs');
 const util = require('util');
+const paths = require("./paths")
+const pathChar = paths.pathChar
 
 const fsAccess = util.promisify(fs.access)
 const fsReadFile = util.promisify(fs.readFile)
@@ -9,24 +11,6 @@ const fsWriteFile = util.promisify(fs.writeFile)
 
 const fetch = require('node-fetch');
 
-
-const pathChar = '\\';
-
-const root = process.env.APPDATA +  pathChar + "ygo-draft" + pathChar;
-const cache = root + pathChar + "cache" + pathChar;
-const cardImages = cache + pathChar + "card-images" + pathChar;
-const cardInfo = cache + pathChar + "cardinfo.json";
-const cardSets = cache + pathChar + "cardsets.json";
-
-const mkdirIfNotExistsSync = (path) => {
-  if (!fs.existsSync(path)) {
-    fs.mkdirSync(path);
-  }
-};
-
-mkdirIfNotExistsSync(root);
-mkdirIfNotExistsSync(cache);
-mkdirIfNotExistsSync(cardImages);
 
 const doesFileExist = async ({ path }) => {
   // If file can be accessed it is deemed to exit
@@ -44,7 +28,7 @@ const doesFileExist = async ({ path }) => {
 const getCardFilePath = ({ cardId }) => {
   // console.log(`getCardFilePath called with ${cardId}`);
   const fileName = cardId + ".jpg";
-  return cardImages + pathChar + fileName;
+  return paths.cardImages + pathChar + fileName;
 };
 
 
@@ -102,11 +86,11 @@ const getEndpointData = async (path, endpoint) => {
 }
 
 const getCardInfo = async () => {
-  return await getEndpointData(cardInfo, "https://db.ygoprodeck.com/api/v7/cardinfo.php")
+  return await getEndpointData(paths.cardInfo, "https://db.ygoprodeck.com/api/v7/cardinfo.php")
 }
 
 const getCardSets = async () => {
-  return await getEndpointData(cardSets, "https://db.ygoprodeck.com/api/v7/cardsets.php")
+  return await getEndpointData(paths.cardSets, "https://db.ygoprodeck.com/api/v7/cardsets.php")
 }
 
 
