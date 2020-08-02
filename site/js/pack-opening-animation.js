@@ -12,6 +12,7 @@ function preload() {
 
 
 function setup() {
+    cards = []
     createCanvas(windowWidth,windowHeight);
     pack = new Pack(selected_pack_image)
     t=0
