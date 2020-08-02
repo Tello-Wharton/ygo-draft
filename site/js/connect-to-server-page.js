@@ -20,11 +20,12 @@ Vue.component("join-server", {
         }
       }
   },
-  created: () => {
-    const init = async () => {
+  created: function() {
 
-    };
-    init();
+    this.$on("robert-message", (msg) => console.log(msg))
+    
+    this.$emit("robert-message", "cake")
+
   },
   methods: {
     connectToServer: async function (event) {
