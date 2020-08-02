@@ -8,15 +8,33 @@ Vue.component("create-server", {
         message: "Hello",
         serverPort: '56351',
         serverName: 'TestServer🍰',
+        serverCreated: false,
+        gameId: null,
+        url: null,
         connectedClients: [],
         cards: [],
         images: []
       }
   },
   methods: {
-    createServer: function (event) {
+    requestNewServer: async function({ serverName, serverPort }) {
+    try {
+      const { serverDetails } = await startServer({ serverName, serverPort });
+      // TODO: display response to user in ui
+      this.url = serverDetails.serverUri
+
+
+      this.serverCreated = true
+
+      console.log(serverDetails);
+    } catch (error) {
+      console.error('Caught error in create-server page');
+      alert(error.message);
+    }
+  },
+  createServer: function (event) {
       event.preventDefault();
-      requestNewServer({serverPort: this.serverPort, serverName: this.serverName })
+      this.requestNewServer({serverPort: this.serverPort, serverName: this.serverName })
     },
     getCurrentlyConnectedClients: async function (event) {
       event.preventDefault();
@@ -24,17 +42,6 @@ Vue.component("create-server", {
     }
   }
 })
-
-const requestNewServer = async ({ serverName, serverPort }) => {
-  try {
-    const { serverDetails } = await startServer({ serverName, serverPort });
-    // TODO: display response to user in ui
-    console.log(serverDetails);
-  } catch (error) {
-    console.error('Caught error in create-server page');
-    alert(error.message);
-  }
-};
 
 const requestCurrentlyConnectedClients = async () => {
   const { clients } = await getConnectedClients();

@@ -10,5 +10,5 @@ const eventBus = new Vue({
       // this.message = message;
       
     });
-	}
+  }
 });
