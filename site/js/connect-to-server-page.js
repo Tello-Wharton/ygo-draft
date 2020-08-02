@@ -37,7 +37,7 @@ Vue.component("join-server", {
         event.preventDefault();
       }
 
-      this.connectedToServer = connectToServer(this.serverUri)
+      this.connectedToServer = await connectToServer(this.serverUri)
       joinGame(this.gameId, this.username)
 
 
