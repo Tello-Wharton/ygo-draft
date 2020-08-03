@@ -1,6 +1,28 @@
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
 
+const fs = require('fs');
+const util = require('util');
+const fsAccess = util.promisify(fs.access)
+
+const doesFileExist = async ({ path }) => {
+  // If file can be accessed it is deemed to exit
+
+  try {
+
+    await fsAccess(path)
+
+  } catch {
+
+    return false
+
+  }
+
+  return true
+}
+
+window.doesFileExist = async (path) => doesFileExist({path})
+
 
 const ygo = require('./js/ygoprodeck-api-connector');
 const { createServer } = require('./server/gameServer');

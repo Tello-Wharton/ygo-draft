@@ -17,7 +17,8 @@ Vue.component("pack-opener", {
       this.cards.push(null)
       this.cards.pop()
 
-      console.log(this.cardSetCode)
+      animationSetCode = this.cardSetCode
+
       await window.openPack(this.cardSetCode).then(cards => this.cards = cards)
 
       this.cards.push(null)

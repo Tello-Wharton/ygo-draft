@@ -5,16 +5,45 @@ let t
 let card_count = 10
 
 
-function preload() {
-    selected_pack_image = loadImage("../pack_imgs/pk_legend_of_blue_eyes_white_dragon.jpg")
+var animationSetImages;
+var animationSetCode;
+
+animationSetImages = {}
+animationSetCode = "LOB"
+
+var animationLoaded = false;
+
+async function preload() {
+    selected_pack_image = loadImage("../pack_imgs/LOB.jpg")
+
+    const defaultImage = "../pack_imgs/LOB.jpg"
+    const setCodes = await window.getCardSetCodes()
+
+    for (var i = 0; i < setCodes.length; i++) {
+        const setCode = setCodes[i]
+
+        const possibleSetImage = "./pack_imgs/" + setCode + ".jpg"
+        const setImage = await  window.doesFileExist(possibleSetImage).then((exists) => exists ? "../" + possibleSetImage : defaultImage)
+
+        animationSetImages[setCode] = loadImage(setImage)
+    }
+
     card_back = loadImage("../card_imgs/cd_back_clean.png")
+
+    animationLoaded = true
 }
 
 
 function setup() {
+    
+    if (!animationLoaded) {
+        setTimeout(() => setup(), 100);
+        return
+    }
+
     cards = []
     createCanvas(windowWidth,windowHeight);
-    pack = new Pack(selected_pack_image,1.4)
+    pack = new Pack(animationSetImages[animationSetCode],1.4)
     t=0
     for (let i = 0; i < card_count; i++){
         let card = new Card(card_back,0.9)
