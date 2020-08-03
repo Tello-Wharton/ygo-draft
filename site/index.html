@@ -169,8 +169,24 @@
 </script>
 
 
-<video autoplay muted loop id="background-video">
-  <source src="../oh_no_more_of_ryans_bullshit/webm_version.webm" type="video/mp4">
+<script type="text/javascript">
+  const toLoopedVideo = () => {
+    const initVideo = document.getElementById("background-video-init")
+    initVideo.style.display = "none"
+
+    const video = document.getElementById("background-video")
+    video.style.display = "block"
+    video.load()
+    video.play();
+  }
+</script>
+
+<video autoplay muted onended="toLoopedVideo()" id="background-video-init">
+  <source src="../oh_no_more_of_ryans_bullshit/intro.webm" type="video/mp4">
+</video>
+
+<video muted loop onended="toLoopedVideo()" id="background-video" style="display: none;">
+  <source src="../oh_no_more_of_ryans_bullshit/loop.webm" type="video/mp4">
 </video>
 
 </body>
