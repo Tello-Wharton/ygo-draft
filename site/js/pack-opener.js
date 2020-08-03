@@ -5,11 +5,9 @@ Vue.component("pack-opener", {
   data() {
     return {
       message: "Hello",
-      cardPack: "",
+      cardSets: [],
+      cardSetCode: "",
       cards: [],
-      newFront: '',
-      newBack: '',
-      error: false
     }
   },
   methods: {
@@ -19,7 +17,8 @@ Vue.component("pack-opener", {
       this.cards.push(null)
       this.cards.pop()
 
-      await window.openPack("LOB").then(tenCards => this.cards = tenCards)
+      console.log(this.cardSetCode)
+      await window.openPack(this.cardSetCode).then(cards => this.cards = cards)
 
       this.cards.push(null)
       this.cards.pop()
@@ -46,7 +45,7 @@ Vue.component("pack-opener", {
     },
   },
   created: function() {
-    
+    window.getCardSetsInfo().then(cardSets => this.cardSets = cardSets).then(() => console.log(this.cardSets))
   }
 
 })

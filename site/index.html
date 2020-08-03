@@ -53,11 +53,9 @@
 <script type="text/x-template" id="pack-opener">
     <div class="pack-opener">
 
-      <select v-model="cardPack">
+      <select v-model="cardSetCode">
         <option disabled value="">Please select one</option>
-        <option value="a">A</option>
-        <option value="b">B</option>
-        <option value="c">C</option>
+        <option v-for="cardSet in cardSets" :value="cardSet.set_code">{{cardSet.set_name}}</option>
       </select>
 
       <button @click="openPack">Open Pack!</button>
