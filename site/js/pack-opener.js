@@ -5,6 +5,7 @@ Vue.component("pack-opener", {
   data() {
     return {
       message: "Hello",
+      cardPack: "",
       cards: [],
       newFront: '',
       newBack: '',

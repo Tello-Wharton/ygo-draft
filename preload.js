@@ -20,6 +20,7 @@ window.getTenCards = async () => ygo.getCardInfo().then((response) => response.d
 window.getCardImage = async(id) => ygo.getCardImage(id);
 window.openPack = async (setCode) => ygo.openPack(setCode);
 window.getCardImage = async(id) => ygo.getCardImage(id);
+window.getCardSetCodes = async() => ygo.getCardSetCodes();
 
 window.ipcRenderer = require('electron').ipcRenderer;
 

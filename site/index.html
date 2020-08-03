@@ -25,10 +25,6 @@
 </head>
 <body>
 
-<video autoplay muted loop id="background-video">
-  <source src="../oh_no_more_of_ryans_bullshit/webm_version.webm" type="video/mp4">
-</video>
-
 <main>
   <div id="ygo-draft">
 
@@ -56,6 +52,14 @@
 
 <script type="text/x-template" id="pack-opener">
     <div class="pack-opener">
+
+      <select v-model="cardPack">
+        <option disabled value="">Please select one</option>
+        <option value="a">A</option>
+        <option value="b">B</option>
+        <option value="c">C</option>
+      </select>
+
       <button @click="openPack">Open Pack!</button>
 
       <ul class="flashcard-list">
@@ -164,6 +168,10 @@
 
 </script>
 
+
+<video autoplay muted loop id="background-video">
+  <source src="../oh_no_more_of_ryans_bullshit/webm_version.webm" type="video/mp4">
+</video>
 
 </body>
 </html>
