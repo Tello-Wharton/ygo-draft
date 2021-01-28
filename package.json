@@ -14,7 +14,7 @@
   "author": "Aaron Tello-Wharton et al",
   "license": "GPL V3",
   "devDependencies": {
-    "electron": "^9.1.2",
+    "electron": "^9.4.0",
     "@babel/cli": "^7.6.2",
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
