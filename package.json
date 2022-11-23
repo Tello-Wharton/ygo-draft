@@ -29,7 +29,7 @@
   "dependencies": {
     "ngrok": "^3.2.7",
     "node-fetch": "^2.6.0",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.5.0",
     "vue-flip": "^1.0.2"
   }
 }
